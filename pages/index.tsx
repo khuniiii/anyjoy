@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Main from "@/src/components/templates/Main";
+import Main from "components/templates/Main";
 
 const Index: NextPage = () => {
   return <Main />;
