@@ -16,4 +16,10 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./", import.meta.url)),
     },
   },
+  test: {
+    include: ["**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./__tests__/setup.ts",
+  },
 });

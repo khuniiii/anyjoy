@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 
 export const createHello = async (
   _: unknown,
-  { input }: { input: { hello: String } },
+  { input }: { input: { hello: string } },
 ): Promise<any> => {
   try {
     if (false)
