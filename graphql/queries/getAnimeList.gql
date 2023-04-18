@@ -1,0 +1,5 @@
+query getAnimeList($input: AnimeListInput!) {
+  AnimeList(input: $input) {
+    title
+  }
+}
