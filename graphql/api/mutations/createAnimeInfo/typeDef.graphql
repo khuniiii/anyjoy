@@ -1,0 +1,27 @@
+type Mutation {
+  createAnimeInfo(input: CreateAnimeInfoInput!): CreateAnimeInfo!
+}
+
+input CreateAnimeInfoInput {
+  title: String!
+  author: String!
+  company: [String!]
+  is_adult: Boolean!
+  genre: [String!]
+  year: Int!
+  branch: Int!
+  is_ended: Boolean!
+  id: Int!
+}
+
+type CreateAnimeInfo {
+  title: String!
+  author: String!
+  company: [String!]
+  is_adult: Boolean!
+  genre: [String!]
+  year: Int!
+  branch: Int!
+  is_ended: Boolean!
+  id: Int!
+}

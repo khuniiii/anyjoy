@@ -1,10 +1,9 @@
 import { Anime } from "@/lib/model/anime";
-import AnimeList from "./typeDef.graphql";
 
 export const getAnimeList = async (
   _: unknown,
   { input }: { input: { id: number } },
-): Promise<typeof AnimeList> => {
+): Promise<unknown> => {
   const anime = await Anime.findOne({ id: input.id });
 
   if (!anime) {
