@@ -1,0 +1,19 @@
+type Query {
+  getAnimeList(input: AnimeListInput!): AnimeList!
+}
+
+input AnimeListInput {
+  id: Int!
+}
+
+type AnimeList {
+  title: String
+  author: String
+  company: [String]
+  is_adult: Boolean
+  genre: [String]
+  year: Int
+  branch: Int
+  is_ended: Boolean
+  id: Int
+}
