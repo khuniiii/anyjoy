@@ -1,4 +1,3 @@
-// import { Binary, UUID } from "bson";
 import { Document, Schema } from "mongoose";
 
 import { dbConnect } from "@/lib/dbConnect";
@@ -12,9 +11,9 @@ export interface AnimeDocument extends Document {
   is_adult: boolean;
   genre: string[];
   year: number;
-  branch: number;
   is_ended: boolean;
   id: number;
+  is_show: boolean;
 }
 
 const AnimeSchema = new Schema<AnimeDocument>(
@@ -37,14 +36,14 @@ const AnimeSchema = new Schema<AnimeDocument>(
     year: {
       type: Number,
     },
-    branch: {
-      type: Number,
-    },
     is_ended: {
       type: Boolean,
     },
     id: {
       type: Number,
+    },
+    is_show: {
+      type: Boolean,
     },
   },
   {

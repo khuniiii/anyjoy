@@ -1,9 +1,9 @@
 type Query {
-  getAnimeList(input: AnimeListInput!): AnimeList!
+  getAnimeList(input: AnimeListInput!): [AnimeList!]!
 }
 
 input AnimeListInput {
-  id: Int!
+  is_show: Boolean!
 }
 
 type AnimeList {
@@ -13,7 +13,7 @@ type AnimeList {
   is_adult: Boolean
   genre: [String]
   year: Int
-  branch: Int
   is_ended: Boolean
   id: Int
+  is_show: Boolean
 }
