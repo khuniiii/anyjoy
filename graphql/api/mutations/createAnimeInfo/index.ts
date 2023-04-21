@@ -13,9 +13,9 @@ export const createAnimeInfo = async (
       is_adult: boolean;
       genre: string[];
       year: number;
-      branche: number;
       is_ended: boolean;
       id: number;
+      is_show: boolean;
     };
   },
 ) => {

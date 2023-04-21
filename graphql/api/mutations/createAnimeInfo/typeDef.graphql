@@ -9,9 +9,9 @@ input CreateAnimeInfoInput {
   is_adult: Boolean!
   genre: [String!]
   year: Int!
-  branch: Int!
   is_ended: Boolean!
   id: Int!
+  is_show: Boolean!
 }
 
 type CreateAnimeInfo {
@@ -21,7 +21,7 @@ type CreateAnimeInfo {
   is_adult: Boolean!
   genre: [String!]
   year: Int!
-  branch: Int!
   is_ended: Boolean!
   id: Int!
+  is_show: Boolean!
 }

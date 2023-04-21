@@ -1,5 +1,11 @@
 query getAnimeList($input: AnimeListInput!) {
-  AnimeList(input: $input) {
+  getAnimeList(input: $input) {
     title
+    author
+    company
+    is_adult
+    genre
+    year
+    is_ended
   }
 }

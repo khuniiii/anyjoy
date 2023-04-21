@@ -2,23 +2,13 @@ import { Anime } from "@/lib/model/anime";
 
 export const getAnimeList = async (
   _: unknown,
-  { input }: { input: { id: number } },
+  { input }: { input: { is_show: boolean } },
 ): Promise<unknown> => {
-  const anime = await Anime.findOne({ id: input.id });
+  const anime = await Anime.find({ is_show: input.is_show });
 
-  if (!anime) {
-    throw new Error(`Anime with ID ${input.id} not found`);
+  if (anime.length === 0) {
+    throw new Error(`Anime with is_show ${input.is_show} not found`);
   }
 
-  return {
-    title: anime.title,
-    author: anime.author,
-    company: anime.company,
-    is_adult: anime.is_adult,
-    genre: anime.genre,
-    year: anime.year,
-    branch: anime.branch,
-    is_ended: anime.is_ended,
-    id: anime.id,
-  };
+  return anime;
 };
