@@ -14,6 +14,7 @@ export interface AnimeDocument extends Document {
   is_ended: boolean;
   id: number;
   is_show: boolean;
+  image: string;
 }
 
 const AnimeSchema = new Schema<AnimeDocument>(
@@ -44,6 +45,9 @@ const AnimeSchema = new Schema<AnimeDocument>(
     },
     is_show: {
       type: Boolean,
+    },
+    image: {
+      type: String,
     },
   },
   {

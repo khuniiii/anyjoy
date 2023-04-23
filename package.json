@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "DOTENV_CONFIG_PATH=.env.local yarn graphql && next dev",
+    "dev": "next dev",
     "build": "yarn graphql && next build",
     "build:local": "DOTENV_CONFIG_PATH=.env.local yarn graphql && next build",
     "start": "next start",
