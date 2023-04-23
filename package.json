@@ -10,7 +10,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "graphql": "graphql-codegen -r dotenv/config"
+    "graphql": "DOTENV_CONFIG_PATH=.env.local graphql-codegen -r dotenv/config"
   },
   "dependencies": {
     "@apollo/client": "^3.7.12",
