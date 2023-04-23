@@ -7,5 +7,8 @@ query getAnimeList($input: AnimeListInput!) {
     genre
     year
     is_ended
+    id
+    is_show
+    image
   }
 }

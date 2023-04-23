@@ -16,4 +16,5 @@ type AnimeList {
   is_ended: Boolean
   id: Int
   is_show: Boolean
+  image: String
 }
