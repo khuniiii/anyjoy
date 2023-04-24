@@ -1,10 +1,15 @@
-import { useGetAnimeListLazyQuery } from "@/graphql/queries/getAnimeList.graphql";
+import { useState } from "react";
+import {
+  useGetAnimeListLazyQuery,
+  GetAnimeListQuery,
+} from "@/graphql/queries/getAnimeList.graphql";
 
 const useStates = () => {
   const [getAnimeList] = useGetAnimeListLazyQuery();
+  const [aniInfo, setAniInfo] = useState<GetAnimeListQuery>();
 
-  const getter = { getAnimeList };
-  const setter = {};
+  const getter = { aniInfo, getAnimeList };
+  const setter = { setAniInfo };
 
   return { ...getter, ...setter };
 };

@@ -1,7 +1,7 @@
 import { StatesType } from "./type";
 
 const useHandlers = (states: StatesType) => {
-  const { getAnimeList } = states;
+  const { getAnimeList, setAniInfo } = states;
 
   const getAnimeListData = async () => {
     try {
@@ -12,7 +12,7 @@ const useHandlers = (states: StatesType) => {
           },
         },
       });
-      console.log(data);
+      setAniInfo(data);
     } catch (error) {
       console.error(error);
     }
