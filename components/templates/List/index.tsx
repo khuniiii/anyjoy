@@ -1,13 +1,14 @@
 import React from "react";
+import MainList from "@/components/organisms/MainList";
 import Header from "@/components/organisms/Header";
 
-const Main = () => {
+const List = () => {
   return (
     <>
       <Header />
-      Main페이지입니다
+      <MainList />
     </>
   );
 };
 
-export default Main;
+export default List;

@@ -1,9 +1,9 @@
-import MainList from "@/components/organisms/MainList";
+import List from "@/components/templates/List";
 
 const AnimeList = () => {
   return (
     <>
-      <MainList />
+      <List />
     </>
   );
 };
