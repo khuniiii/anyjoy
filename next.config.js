@@ -6,6 +6,10 @@ const nextConfig = {
   i18n,
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ["i.namu.wiki"],
+    formats: ["image/avif", "image/webp"],
+  },
   webpack(config, options) {
     config.experiments.topLevelAwait = true;
 
