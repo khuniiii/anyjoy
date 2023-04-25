@@ -4,7 +4,7 @@ import Image from "next/image";
 import useStates from "./state";
 import useHandlers from "./handler";
 
-import { ContentContainer, Content } from "./style";
+import { ContentContainer, Content, Title } from "./style";
 
 const MainList = () => {
   const states = useStates();
@@ -26,9 +26,10 @@ const MainList = () => {
                 <Image
                   src={item.image}
                   alt={`listImage_${index}`}
-                  width={200}
-                  height={300}
+                  width={350}
+                  height={550}
                 />
+                <Title>{item.title}</Title>
               </Content>
             </>
           );
