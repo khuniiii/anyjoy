@@ -1,10 +1,10 @@
 type Query {
   getAnimeList(input: AnimeListInput!): [AnimeList!]!
-  getAnimeByTitle(input: AnimeListInput!): [AnimeList!]!
 }
 
 input AnimeListInput {
   is_show: Boolean
+  title: String
 }
 
 type AnimeList {
