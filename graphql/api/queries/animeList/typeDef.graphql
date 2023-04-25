@@ -4,7 +4,6 @@ type Query {
 
 input AnimeListInput {
   is_show: Boolean
-  title: String
 }
 
 type AnimeList {
