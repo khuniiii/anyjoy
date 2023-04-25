@@ -1,5 +1,6 @@
 type Query {
   getAnimeList(input: AnimeListInput!): [AnimeList!]!
+  getAnimeByTitle(input: AnimeListInput!): [AnimeList!]!
 }
 
 input AnimeListInput {

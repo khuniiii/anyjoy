@@ -14,3 +14,18 @@ export const getAnimeList = async (
 
   return anime;
 };
+
+export const getAnimeByTitle = async (
+  _: unknown,
+  { input }: { input: { title: string } },
+): Promise<unknown> => {
+  const anime = await Anime.find({
+    title: input.title,
+  });
+
+  if (anime.length === 0) {
+    throw new Error(`Anime with title ${input.title} not found`);
+  }
+
+  return anime;
+};
