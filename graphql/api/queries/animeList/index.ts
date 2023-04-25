@@ -5,8 +5,7 @@ export const getAnimeList = async (
   { input }: { input: { is_show: boolean; title: string } },
 ): Promise<unknown> => {
   const anime = await Anime.find({
-    is_show: input.is_show,
-    title: input.title,
+    $or: [{ is_show: input.is_show }, { title: input.title }],
   });
 
   if (anime.length === 0) {
