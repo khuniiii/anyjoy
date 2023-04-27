@@ -10,7 +10,7 @@ export const createUserInfo = async (
       email: string;
       name: string;
       password: string;
-      phoneNum: number;
+      phoneNum: string;
       birth: number;
     };
   },

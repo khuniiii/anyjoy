@@ -8,7 +8,7 @@ export interface UserDocument extends Document {
   email: string;
   name: string;
   password: string;
-  phoneNum: number;
+  phoneNum: string;
   birth: number;
 }
 
@@ -24,7 +24,7 @@ const UserSchema = new Schema<UserDocument>(
       type: String,
     },
     phoneNum: {
-      type: Number,
+      type: String,
     },
     birth: {
       type: Number,
@@ -36,4 +36,4 @@ const UserSchema = new Schema<UserDocument>(
   },
 );
 
-export const User = conn.model<UserDocument>("anime", UserSchema);
+export const User = conn.model<UserDocument>("user", UserSchema);

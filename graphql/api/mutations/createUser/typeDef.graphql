@@ -3,17 +3,17 @@ type Mutation {
 }
 
 input CreateUserInfoInput {
-  email: String;
-  name: string;
-  password: String;
-  phoneNum: Number;
-  birth: Number;
+  email: String!
+  name: String!
+  password: String!
+  phoneNum: String!
+  birth: Int!
 }
 
 type CreateUserInfo {
-  email: String;
-  name: String;
-  password: String;
-  phoneNum: Number;
-  birth: Number;
+  email: String!
+  name: String!
+  password: String!
+  phoneNum: String!
+  birth: Int!
 }
