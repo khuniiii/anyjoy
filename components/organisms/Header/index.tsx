@@ -25,7 +25,7 @@ const Header = () => {
       </HeaderList>
 
       <AccountList>
-        <Link href="/login" passHref>
+        <Link href="/join" passHref>
           <AccountText>로그인</AccountText>
         </Link>
 
