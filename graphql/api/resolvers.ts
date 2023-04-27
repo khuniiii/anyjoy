@@ -4,6 +4,7 @@ import { createAnimeInfo } from "./mutations/createAnimeInfo";
 import { createUserInfo } from "./mutations/createUser";
 
 import { getAnimeList } from "./queries/animeList";
+import { login } from "./queries/login";
 
 const resolvers = {
   ...scalarResolvers,
@@ -13,6 +14,7 @@ const resolvers = {
   },
   Query: {
     getAnimeList,
+    login,
   },
 };
 
