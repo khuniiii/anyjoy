@@ -1,0 +1,19 @@
+type Mutation {
+  createUserInfo(input: CreateUserInfoInput!): CreateUserInfo!
+}
+
+input CreateUserInfoInput {
+  email: String;
+  name: string;
+  password: String;
+  phoneNum: Number;
+  birth: Number;
+}
+
+type CreateUserInfo {
+  email: String;
+  name: String;
+  password: String;
+  phoneNum: Number;
+  birth: Number;
+}
