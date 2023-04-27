@@ -1,0 +1,9 @@
+query login($input: LoginInput!) {
+  login(input: $input) {
+    email
+    name
+    password
+    phoneNum
+    birth
+  }
+}
