@@ -6,7 +6,14 @@ const useStates = () => {
   const [joinName, setJoinName] = useState<string>("");
   const [joinPassword, setJoinPassword] = useState<string>("");
   const [joinPhoneNumber, setJoinPhoneNumber] = useState<string>("");
-  const [joinBirth, setJoinBirth] = useState<number>();
+  const [joinBirth, setJoinBirth] = useState<string>("");
+
+  const [validEmail, setValidEmail] = useState(false);
+  const [validName, setValidName] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
+  const [validPhoneNumber, setValidPhoneNumber] = useState(false);
+  const [validBirth, setValidBirth] = useState(false);
+
   const [createUser] = useCreateUserMutation();
 
   const getter = {
@@ -15,6 +22,11 @@ const useStates = () => {
     joinPassword,
     joinPhoneNumber,
     joinBirth,
+    validEmail,
+    validName,
+    validPassword,
+    validPhoneNumber,
+    validBirth,
   };
   const setter = {
     setJoinEmail,
@@ -22,6 +34,11 @@ const useStates = () => {
     setJoinPassword,
     setJoinPhoneNumber,
     setJoinBirth,
+    setValidEmail,
+    setValidName,
+    setValidPassword,
+    setValidPhoneNumber,
+    setValidBirth,
     createUser,
   };
 

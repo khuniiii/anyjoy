@@ -11,7 +11,7 @@ export const createUserInfo = async (
       name: string;
       password: string;
       phoneNum: string;
-      birth: number;
+      birth: string;
     };
   },
 ) => {

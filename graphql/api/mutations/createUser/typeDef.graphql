@@ -7,7 +7,7 @@ input CreateUserInfoInput {
   name: String!
   password: String!
   phoneNum: String!
-  birth: Int!
+  birth: String!
 }
 
 type CreateUserInfo {
@@ -15,5 +15,5 @@ type CreateUserInfo {
   name: String!
   password: String!
   phoneNum: String!
-  birth: Int!
+  birth: String!
 }
