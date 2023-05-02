@@ -8,8 +8,13 @@ import {
   JoinBtn,
 } from "./style";
 
+import useStates from "./state";
+import useHandlers from "./handler";
+
 const JoinUser = () => {
   const { data, status } = useSession();
+  const states = useStates();
+  const { joinUser } = useHandlers(states);
   console.log(data, status);
   return (
     <>
@@ -26,7 +31,7 @@ const JoinUser = () => {
             <JoinInput placeholder="비밀번호"></JoinInput>
             <JoinInput placeholder="전화번호"></JoinInput>
             <JoinInput placeholder="생년월일"></JoinInput>
-            <JoinBtn>회원가입하기</JoinBtn>
+            <JoinBtn onClick={joinUser}>회원가입하기</JoinBtn>
           </JoinGroup>
           <SocialGroup>
             <SocialBtn social="naver" onClick={() => signIn("naver")}>
