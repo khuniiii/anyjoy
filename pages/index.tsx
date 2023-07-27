@@ -1,10 +1,10 @@
 import { NextPage } from "next";
-import Main from "components/templates/Main";
+import List from "components/templates/List";
 
 const Index: NextPage = () => {
   return (
     <>
-      <Main />
+      <List />
     </>
   );
 };

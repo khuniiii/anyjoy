@@ -38,32 +38,32 @@ const useHandlers = (states: StatesType) => {
     }
   };
 
-  const handleEmailChange = e => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJoinEmail(e.target.value);
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setValidEmail(regex.test(joinEmail));
   };
 
-  const handleNameChange = e => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJoinName(e.target.value);
     const regex = /^[가-힣]{2,5}$/;
     setValidName(regex.test(joinName));
   };
 
-  const handlePasswordChange = e => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJoinPassword(e.target.value);
     const regex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
     setValidPassword(regex.test(joinPassword));
   };
 
-  const handlePhoneNumberChange = e => {
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJoinPhoneNumber(e.target.value);
     const regex = /^\d{3}-\d{3,4}-\d{4}$/;
     setValidPhoneNumber(regex.test(joinPhoneNumber));
   };
 
-  const handleBirthChange = e => {
+  const handleBirthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJoinBirth(e.target.value);
     const regex = /^\d{6}-[1-4]\d{6}$/;
     setValidBirth(regex.test(joinBirth));

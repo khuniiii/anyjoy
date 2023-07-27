@@ -7,7 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["github-production-user-asset-6210df.s3.amazonaws.com"],
+    domains: ["any-asset-khuniiii.s3.ap-northeast-2.amazonaws.com"],
     formats: ["image/avif", "image/webp"],
   },
   webpack(config, options) {
