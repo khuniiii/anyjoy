@@ -20,7 +20,7 @@ const LoginUser = () => {
     setLoginEmail,
     setLoginPassword,
   } = states;
-  // const { getLoginInfoData } = useHandlers(states);
+  const { login } = useHandlers(states);
   const { data, status } = useSession();
   console.log(data, status);
   console.log(loginUserInfo);
@@ -34,7 +34,7 @@ const LoginUser = () => {
         </>
       ) : (
         <Container>
-          <JoinGroup>
+          <JoinGroup onSubmit={login}>
             <JoinInput
               placeholder="이메일"
               onChange={e => setLoginEmail(e.target.value)}
@@ -43,7 +43,7 @@ const LoginUser = () => {
               placeholder="비밀번호"
               onChange={e => setLoginPassword(e.target.value)}
             />
-            <JoinBtn>로그인하기</JoinBtn>
+            <JoinBtn type="submit">로그인하기</JoinBtn>
           </JoinGroup>
           <SocialGroup>
             <SocialBtn social="naver" onClick={() => signIn("naver")}>

@@ -29,7 +29,7 @@ const useHandlers = (states: StatesType) => {
             name: joinName,
             password: joinPassword,
             phoneNum: joinPhoneNumber,
-            birth: joinBirth,
+            birth: Number(joinBirth),
           },
         },
       });

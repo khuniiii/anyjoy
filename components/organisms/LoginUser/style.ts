@@ -28,7 +28,7 @@ export const SocialGroup = styled("div", {
   flexDirection: "column",
 });
 
-export const JoinGroup = styled("div", {
+export const JoinGroup = styled("form", {
   width: "80%",
   display: "flex",
   flexDirection: "column",
