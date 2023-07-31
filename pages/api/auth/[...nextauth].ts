@@ -3,10 +3,8 @@ import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoClient } from "mongodb";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import { dbConnect } from "@/lib/dbConnect";
 
-const uri: string = process.env.MONGODB_URI;
+const uri: string = process.env.MONGODB_URI as string;
 
 export default NextAuth({
   session: {
@@ -14,22 +12,9 @@ export default NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, account }) {
-      if (account?.provider === "naver") {
-        const client = await MongoClient.connect(uri);
-        const user = await client.db().collection("users").findOne({
-          email: token.email,
-        });
-
-        if (!user) {
-          client.close();
-          throw new Error("함께하고 있는 계정이 아니에요:(");
-        }
-      }
-      return token;
-    },
-    session({ session }) {
-      return session;
+    session({ session, user }) {
+      console.log(222, session, user);
+      return { session, user };
     },
   },
 
@@ -50,7 +35,7 @@ export default NextAuth({
       credentials: {
         email: {
           label: "email",
-          type: "text",
+          type: "string",
           placeholder: "이메일을 입력해주세요.",
         },
         password: {
@@ -59,16 +44,20 @@ export default NextAuth({
           placeholder: "비밀번호를 입력해주세요.",
         },
       },
+
       async authorize(credentials) {
-        if (!credentials) throw new Error("login error");
         const client = await MongoClient.connect(uri);
         const user = await client.db().collection("users").findOne({
-          email: credentials.email,
+          email: credentials?.email,
         });
 
-        // ......
-        client.close();
-        return { id: user!.id };
+        if (user) {
+          console.log(111, user);
+          client.close();
+          return user;
+        } else {
+          return null;
+        }
       },
     }),
   ],
