@@ -1,29 +1,43 @@
-import useStates from "@/components/organisms/DetailInfo/state";
-import useListStates from "@/components/organisms/MainList/state";
-import useListHandlers from "@/components/organisms/MainList/handler";
 import { useEffect } from "react";
+import Image from "next/image";
+
+import useStates from "@/components/organisms/DetailInfo/state";
+import useHandlers from "@/components/organisms/DetailInfo/handler";
+import { Content, ContentContainer, Title } from "./style";
 
 const DetailInfo = () => {
   const states = useStates();
-  const { router } = states;
-
-  const listStates = useListStates();
-  const { aniInfo } = listStates;
-
-  const { getAnimeListData } = useListHandlers(listStates);
+  const { router, aniInfo } = states;
+  const { getAnimeByIdData } = useHandlers(states);
 
   useEffect(() => {
-    getAnimeListData();
-  }, []);
+    if (router.query.id !== undefined) {
+      getAnimeByIdData(Number(router.query.id));
+    }
+  }, [router.query.id !== undefined]);
 
-  console.log(Number(router.query.id));
   return (
     <>
-      {aniInfo?.getAnimeList.map((item, index) => {
+      {aniInfo?.getAnimeById.map((item, index) => {
+        if (!item.image) return;
         return (
-          Number(router.query.id) === index + 1 && (
-            <div key={index}>{item.title}</div>
-          )
+          <>
+            <ContentContainer>
+              <Image
+                src={item.image}
+                alt={`listImage_${index}`}
+                width={350}
+                height={550}
+              />
+              <Content>
+                <Title key={index}>{item.title}</Title>
+                <Title key={index}>{item.author}</Title>
+                <Title key={index}>{item.genre}</Title>
+                <Title key={index}>{item.company}</Title>
+                <Title key={index}>{item.year}</Title>
+              </Content>
+            </ContentContainer>
+          </>
         );
       })}
     </>

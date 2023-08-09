@@ -1,0 +1,14 @@
+query getAnimeById($input: GetAnimeByIdInput!) {
+  getAnimeById(input: $input) {
+    title
+    author
+    company
+    is_adult
+    genre
+    year
+    is_ended
+    id
+    is_show
+    image
+  }
+}
