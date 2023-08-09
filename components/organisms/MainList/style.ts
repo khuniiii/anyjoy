@@ -11,6 +11,7 @@ export const Content = styled("div", {
   display: "grid",
   placeItems: "center",
   marginTop: "30px",
+  cursor: "pointer",
 });
 
 export const Title = styled("p", {

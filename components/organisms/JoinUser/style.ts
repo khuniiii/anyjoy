@@ -28,14 +28,14 @@ export const SocialGroup = styled("div", {
   flexDirection: "column",
 });
 
-export const JoinGroup = styled("div", {
+export const JoinGroup = styled("form", {
   width: "80%",
   display: "flex",
   flexDirection: "column",
   margin: "auto",
 });
 
-export const JoinInput = styled("textarea", {
+export const JoinInput = styled("input", {
   height: "40px",
   width: "100%",
   borderRadius: "5px",
@@ -43,6 +43,14 @@ export const JoinInput = styled("textarea", {
   margin: "auto",
   marginTop: "10px",
   padding: "10px 0 0 5px",
+
+  '&[type="number"]': {
+    appearance: "textfield", // 스핀 버튼을 지우는 스타일
+    "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
+      display: "none", // 크롬과 사파리에서 스핀 버튼 숨김
+    },
+    "-moz-appearance": "textfield", // 파이어폭스에서 스핀 버튼 숨김
+  },
 });
 
 export const JoinBtn = styled("button", {

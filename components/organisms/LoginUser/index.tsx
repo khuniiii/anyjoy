@@ -1,4 +1,4 @@
-import { signIn, useSession, signOut } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import {
   Container,
   SocialBtn,
@@ -16,15 +16,12 @@ const LoginUser = () => {
   const { setLoginEmail, setLoginPassword } = states;
   const { login } = useHandlers(states);
   const { data: session, status } = useSession();
-  console.log("data:", session?.session.user.name, "status: ", status);
+  console.log("data:", session?.session, "status: ", status);
 
   return (
     <>
       {status === "authenticated" ? (
-        <>
-          {session.user?.name || session?.session.user.name}님 반갑습니다
-          <button onClick={() => signOut()}>로그아웃</button>
-        </>
+        <>{session.user?.name || session?.session?.user?.name}님 반갑습니다</>
       ) : (
         <Container>
           <JoinGroup onSubmit={login}>
@@ -33,6 +30,7 @@ const LoginUser = () => {
               onChange={e => setLoginEmail(e.target.value)}
             />
             <JoinInput
+              type="password"
               placeholder="비밀번호"
               onChange={e => setLoginPassword(e.target.value)}
             />

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useCreateUserMutation } from "@/graphql/mutations/createUser.graphql";
 
 const useStates = () => {
   const [joinEmail, setJoinEmail] = useState<string>("");
@@ -13,8 +12,6 @@ const useStates = () => {
   const [validPassword, setValidPassword] = useState(false);
   const [validPhoneNumber, setValidPhoneNumber] = useState(false);
   const [validBirth, setValidBirth] = useState(false);
-
-  const [createUser] = useCreateUserMutation();
 
   const getter = {
     joinEmail,
@@ -39,7 +36,6 @@ const useStates = () => {
     setValidPassword,
     setValidPhoneNumber,
     setValidBirth,
-    createUser,
   };
 
   return { ...getter, ...setter };

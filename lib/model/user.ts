@@ -10,6 +10,7 @@ export interface UserDocument extends Document {
   password: string;
   phoneNum: string;
   birth: number;
+  role: string;
 }
 
 const UserSchema = new Schema<UserDocument>(
@@ -28,6 +29,13 @@ const UserSchema = new Schema<UserDocument>(
     },
     birth: {
       type: Number,
+    },
+    role: {
+      type: String,
+      default: "user",
+      enum: {
+        values: ["user", "admin"],
+      },
     },
   },
   {

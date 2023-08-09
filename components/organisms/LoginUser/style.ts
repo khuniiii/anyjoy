@@ -35,7 +35,7 @@ export const JoinGroup = styled("form", {
   margin: "auto",
 });
 
-export const JoinInput = styled("textarea", {
+export const JoinInput = styled("input", {
   height: "40px",
   width: "100%",
   borderRadius: "5px",

@@ -27,7 +27,6 @@ export default async function handler(
 
     const status = await db.collection("users").insertOne({
       email,
-      // 비밀번호 암호화
       password: await hash(password, 12),
       ...restInfo,
     });

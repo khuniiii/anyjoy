@@ -17,24 +17,30 @@ const useHandlers = (states: StatesType) => {
     setValidPassword,
     setValidPhoneNumber,
     setValidBirth,
-    createUser,
   } = states;
 
-  const joinUser = () => {
+  const register = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
-      createUser({
-        variables: {
-          input: {
-            email: joinEmail,
-            name: joinName,
-            password: joinPassword,
-            phoneNum: joinPhoneNumber,
-            birth: Number(joinBirth),
-          },
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          email: joinEmail,
+          name: joinName,
+          password: joinPassword,
+          phoneNum: joinPhoneNumber,
+          birth: Number(joinBirth),
+          role: "user",
+        }),
+        headers: {
+          "Content-Type": "application/json",
         },
       });
-    } catch (error) {
-      console.error(error);
+
+      console.log(res);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -75,7 +81,7 @@ const useHandlers = (states: StatesType) => {
     handlePasswordChange,
     handlePhoneNumberChange,
     handleBirthChange,
-    joinUser,
+    register,
   };
 };
 
