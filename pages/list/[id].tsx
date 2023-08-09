@@ -1,7 +1,7 @@
-import DetailInfo from "@/components/organisms/DetailInfo";
+import Detail from "@/components/templates/Detail";
 
 const AnimeInfoById = () => {
-  return <DetailInfo />;
+  return <Detail />;
 };
 
 export default AnimeInfoById;

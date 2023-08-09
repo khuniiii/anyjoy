@@ -7,7 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["i.namu.wiki"],
+    domains: ["any-asset-khuniiii.s3.ap-northeast-2.amazonaws.com"],
     formats: ["image/avif", "image/webp"],
   },
   webpack(config, options) {

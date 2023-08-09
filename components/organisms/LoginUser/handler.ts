@@ -1,25 +1,29 @@
 import { StatesType } from "./type";
+import { signIn } from "next-auth/react";
+import { FormEvent } from "react";
 
 const useHandlers = (states: StatesType) => {
-  const { getLoginInfo, loginEmail, loginPassword, setLoginUserInfo } = states;
+  const { loginEmail, loginPassword } = states;
 
-  const getLoginInfoData = async () => {
+  const login = async (e: FormEvent<HTMLFormElement>) => {
     try {
-      const { data } = await getLoginInfo({
-        variables: {
-          input: {
-            email: loginEmail,
-            password: loginPassword,
-          },
-        },
+      e.preventDefault();
+      const email = loginEmail;
+      const password = loginPassword;
+      const response = await signIn("credentials", {
+        email,
+        password,
+        // callbackUrl: 'http://localhost:3000',
+        redirect: false,
       });
-      setLoginUserInfo(data);
+      console.log(1234, response);
+
+      if (response?.error) console.error(response?.error);
     } catch (error) {
-      console.error(error);
+      console.error("error", error);
     }
   };
-
-  return { getLoginInfoData };
+  return { login };
 };
 
 export default useHandlers;

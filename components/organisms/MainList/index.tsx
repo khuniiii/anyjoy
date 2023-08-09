@@ -8,7 +8,7 @@ import { ContentContainer, Content, Title } from "./style";
 
 const MainList = () => {
   const states = useStates();
-  const { aniInfo } = states;
+  const { aniInfo, router } = states;
   const { getAnimeListData } = useHandlers(states);
 
   useEffect(() => {
@@ -22,7 +22,12 @@ const MainList = () => {
           if (!item.image) return;
           return (
             <>
-              <Content key={index}>
+              <Content
+                key={index}
+                onClick={() => {
+                  router.push(`/list/${index + 1}`);
+                }}
+              >
                 <Image
                   src={item.image}
                   alt={`listImage_${index}`}

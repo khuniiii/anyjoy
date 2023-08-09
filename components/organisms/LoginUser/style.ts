@@ -28,14 +28,14 @@ export const SocialGroup = styled("div", {
   flexDirection: "column",
 });
 
-export const JoinGroup = styled("div", {
+export const JoinGroup = styled("form", {
   width: "80%",
   display: "flex",
   flexDirection: "column",
   margin: "auto",
 });
 
-export const JoinInput = styled("textarea", {
+export const JoinInput = styled("input", {
   height: "40px",
   width: "100%",
   borderRadius: "5px",
