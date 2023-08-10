@@ -4,7 +4,7 @@ const useHandlers = (states: StatesType) => {
   const { getAnimeById, setAniInfo } = states;
 
   const getAnimeByIdData = async (id: number) => {
-    console.log("id:", id, typeof id);
+    console.log("id:", id);
     try {
       const { data } = await getAnimeById({
         variables: {
