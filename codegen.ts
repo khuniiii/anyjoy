@@ -1,18 +1,20 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
+type GraphqlEnv = Record<string, (string | undefined)[]>;
+
 const graphqlEnv = {
   localhost: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
+  dev: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
+  main: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
 };
 
-const generatesConverter = (graphqlEnv: {
-  [domainName: string]: (string | undefined)[];
-}) => {
+const generatesConverter = (graphqlEnv: GraphqlEnv) => {
   const generates: Record<string, unknown> = {};
 
   Object.keys(graphqlEnv).forEach(key => {
     generates[`.cache/__types__.ts`] = {
       documents: [`graphql/**/*.gql`],
-      schema: graphqlEnv[key][0], // GraphQL API URL
+      schema: graphqlEnv[key], // GraphQL API URL
       plugins: ["typescript"],
     };
   });
@@ -21,7 +23,7 @@ const generatesConverter = (graphqlEnv: {
     generates[`${key}/`] = {
       preset: "near-operation-file",
       documents: [`graphql/**/*.gql`],
-      schema: graphqlEnv[key][0], // GraphQL API URL
+      schema: graphqlEnv[key], // GraphQL API URL
       presetConfig: {
         baseTypesPath: `~.cache/__types__`,
         extension: ".graphql.ts",
