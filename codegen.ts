@@ -1,14 +1,14 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
-type GraphqlEnv = Record<string, (string | undefined)[]>;
-
 const graphqlEnv = {
   localhost: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
   dev: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
   main: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
 };
 
-const generatesConverter = (graphqlEnv: GraphqlEnv) => {
+const generatesConverter = (graphqlEnv: {
+  [domainName: string]: (string | undefined)[];
+}) => {
   const generates: Record<string, unknown> = {};
 
   Object.keys(graphqlEnv).forEach(key => {
