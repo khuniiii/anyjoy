@@ -1,8 +1,8 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
 const graphqlEnv = {
-  localhost: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
-};
+  anyjoy: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
+} as { [domain: string]: string[] };
 
 const generatesConverter = (graphqlEnv: {
   [domainName: string]: (string | undefined)[];
