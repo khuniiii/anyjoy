@@ -1,7 +1,7 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
 const graphqlEnv = {
-  localhost: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
+  localhost: "graphql/**/*.graphql",
 };
 
 const generatesConverter = (graphqlEnv: {
