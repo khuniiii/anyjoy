@@ -23,7 +23,7 @@ const useHandlers = (states: StatesType) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch("http://127.0.0.1:3000/api/auth/signup", {
         method: "POST",
         body: JSON.stringify({
           email: joinEmail,
