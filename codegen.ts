@@ -1,7 +1,7 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
 const graphqlEnv = {
-  localhost: [process.env.NEXT_PUBLIC_GRAPHQL_URI],
+  localhost: ["graphql/**/*.graphql"],
 };
 
 const generatesConverter = (graphqlEnv: {
@@ -12,7 +12,7 @@ const generatesConverter = (graphqlEnv: {
   Object.keys(graphqlEnv).forEach(key => {
     generates[`.cache/__types__.ts`] = {
       documents: [`graphql/**/*.gql`],
-      schema: graphqlEnv[key][0], // GraphQL API URL
+      schema: graphqlEnv[key], // GraphQL API URL
       plugins: ["typescript"],
     };
   });
@@ -21,7 +21,7 @@ const generatesConverter = (graphqlEnv: {
     generates[`${key}/`] = {
       preset: "near-operation-file",
       documents: [`graphql/**/*.gql`],
-      schema: graphqlEnv[key][0], // GraphQL API URL
+      schema: graphqlEnv[key], // GraphQL API URL
       presetConfig: {
         baseTypesPath: `~.cache/__types__`,
         extension: ".graphql.ts",
