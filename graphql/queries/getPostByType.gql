@@ -1,0 +1,9 @@
+query getPostByType($input: GetPostByTypeInput!) {
+  getPostByType(input: $input) {
+    _id
+    title
+    views
+    createdAt
+    type
+  }
+}

@@ -13,7 +13,7 @@ const useHandlers = (states: StatesType) => {
       const response = await signIn("credentials", {
         email,
         password,
-        // callbackUrl: 'http://localhost:3000',
+        callbackUrl: "http://localhost:3000",
         redirect: false,
       });
       console.log(1234, response);

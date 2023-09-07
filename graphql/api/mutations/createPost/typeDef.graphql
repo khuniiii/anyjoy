@@ -1,0 +1,19 @@
+type Mutation {
+  createPost(input: CreatePostInput!): CreatePost!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  type: String!
+  views: Int!
+}
+
+type CreatePost {
+  title: String!
+  content: String!
+  views: Int!
+  createdAt: String!
+  type: String
+  _id: ID!
+}

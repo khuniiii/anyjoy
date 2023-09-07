@@ -5,7 +5,8 @@ export const HeaderContainer = styled("div", {
   justifyContent: "space-between",
   alignItems: "center",
   width: "100%",
-  background: "linear-gradient(to right, #1d976c, #91e4b0)",
+  // background: "linear-gradient(to right, #038235, #d8f7e6)",
+  backgroundColor: "#038235",
   padding: "0px 20px",
 });
 
@@ -41,4 +42,18 @@ export const AccountText = styled("p", {
   fontWeight: "500",
   color: "#fff !important",
   cursor: "pointer",
+});
+
+export const MobLogin = styled("div", {
+  "@mobile": {
+    display: "flex !important",
+  },
+  display: "none",
+});
+
+export const PcLogin = styled("div", {
+  "@mobile": {
+    display: "none !important",
+  },
+  display: "flex",
 });
