@@ -8,6 +8,9 @@ export const { styled } = createStitches({
       suit: "SUIT, sans-serif",
     },
   },
+  media: {
+    mobile: "(max-width: 550px)",
+  },
 });
 
 export const { keyframes } = createStitches();

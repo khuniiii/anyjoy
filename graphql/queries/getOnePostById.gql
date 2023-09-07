@@ -1,0 +1,10 @@
+query getOnePostById($input: GetOnePostByIdInput!) {
+  getOnePostById(input: $input) {
+    _id
+    title
+    content
+    views
+    createdAt
+    type
+  }
+}

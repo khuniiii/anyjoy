@@ -28,6 +28,7 @@ export default async function handler(
     const status = await db.collection("users").insertOne({
       email,
       password: await hash(password, 12),
+      role: "user",
       ...restInfo,
     });
 

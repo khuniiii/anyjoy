@@ -1,0 +1,16 @@
+type Query {
+  getOnePostById(input: GetOnePostByIdInput!): [Post!]!
+}
+
+input GetOnePostByIdInput {
+  _id: String
+}
+
+type Post {
+  _id: ID!
+  title: String
+  content: String
+  views: Int
+  createdAt: String
+  type: String
+}

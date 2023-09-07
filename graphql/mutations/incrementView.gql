@@ -1,0 +1,6 @@
+mutation incrementView($input: IncrementViewInput!) {
+  incrementView(input: $input) {
+    _id
+    views
+  }
+}

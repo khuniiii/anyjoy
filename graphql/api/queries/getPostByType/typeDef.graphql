@@ -1,0 +1,15 @@
+type Query {
+  getPostByType(input: GetPostByTypeInput!): [PostList!]!
+}
+
+input GetPostByTypeInput {
+  type: String
+}
+
+type PostList {
+  _id: ID!
+  title: String
+  views: Int
+  createdAt: String
+  type: String
+}

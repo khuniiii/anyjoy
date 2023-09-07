@@ -23,7 +23,7 @@ const MainList = () => {
           return (
             <>
               <Content
-                key={index}
+                key={`${item.title}-${index}`}
                 onClick={() => {
                   router.push(`/list/${index + 1}`);
                 }}

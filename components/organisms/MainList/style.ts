@@ -12,6 +12,11 @@ export const Content = styled("div", {
   placeItems: "center",
   marginTop: "30px",
   cursor: "pointer",
+
+  img: {
+    width: "100%",
+    maxWidth: "350px",
+  },
 });
 
 export const Title = styled("p", {

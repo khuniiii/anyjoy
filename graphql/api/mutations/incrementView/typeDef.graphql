@@ -1,0 +1,12 @@
+type Mutation {
+  incrementView(input: IncrementViewInput!): IncrementView!
+}
+
+input IncrementViewInput {
+  _id: String
+}
+
+type IncrementView {
+  views: Int!
+  _id: ID!
+}

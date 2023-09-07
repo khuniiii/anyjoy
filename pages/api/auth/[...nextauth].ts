@@ -1,15 +1,19 @@
 import NextAuth from "next-auth";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoClient } from "mongodb";
 import jwt from "jsonwebtoken";
+// import clientPromise from "@/lib/mongodb";
 
 import * as bcrypt from "bcrypt";
 
 const uri: string = process.env.MONGODB_URI as string;
 
 export default NextAuth({
+  adapter: MongoDBAdapter(MongoClient.connect(uri)),
+
   secret: process.env.SECRET,
   session: {
     strategy: "jwt",
@@ -27,7 +31,7 @@ export default NextAuth({
       const client = await MongoClient.connect(uri);
       const db = client.db();
 
-      if (account?.provider === "kakao") {
+      if (account?.provider === "kakao" || account?.provider === "naver") {
         const client = await MongoClient.connect(uri);
         const user = await client.db().collection("users").findOne({
           email: token?.email,
@@ -36,6 +40,7 @@ export default NextAuth({
           await db.collection("users").insertOne({
             email: token.email,
             name: token.name,
+            role: "user",
           });
         }
       }
