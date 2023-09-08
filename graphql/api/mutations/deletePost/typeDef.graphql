@@ -1,0 +1,11 @@
+type Mutation {
+  deletePost(input: DeletePostInput!): DeletePost!
+}
+
+input DeletePostInput {
+  _id: String
+}
+
+type DeletePost {
+  message: String
+}

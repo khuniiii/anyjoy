@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { FormEvent } from "react";
 
 const useHandlers = (states: StatesType) => {
-  const { loginEmail, loginPassword } = states;
+  const { loginEmail, loginPassword, router } = states;
 
   const login = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -18,6 +18,7 @@ const useHandlers = (states: StatesType) => {
       });
       console.log(1234, response);
 
+      router.replace("/");
       if (response?.error) console.error(response?.error);
     } catch (error) {
       console.error("error", error);

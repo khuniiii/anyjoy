@@ -10,19 +10,24 @@ import {
 
 import useStates from "./state";
 import useHandlers from "./handler";
+import { useEffect } from "react";
 
 const LoginUser = () => {
   const states = useStates();
-  const { setLoginEmail, setLoginPassword } = states;
+  const { setLoginEmail, setLoginPassword, router } = states;
   const { login } = useHandlers(states);
   const { data: session, status } = useSession();
   console.log("data:", session?.session, "status: ", status);
 
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  });
+
   return (
     <>
-      {status === "authenticated" ? (
-        <>{session.user?.name || session?.session?.user?.name}님 반갑습니다</>
-      ) : (
+      {status === "unauthenticated" && (
         <Container>
           <JoinGroup onSubmit={login}>
             <JoinInput

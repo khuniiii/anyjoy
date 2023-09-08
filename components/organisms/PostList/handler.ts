@@ -1,7 +1,9 @@
+import { useToast } from "@/components/common/hook/useToast";
 import { StatesType } from "./type";
 
 const useHandlers = (states: StatesType) => {
   const { getPostByType, setPostList, router, token } = states;
+  const toast = useToast();
 
   const getPostByTypeData = async (type: string) => {
     try {
@@ -25,7 +27,11 @@ const useHandlers = (states: StatesType) => {
   const movePostCreate = (type: string) => {
     token
       ? router.push(`/post/create/${type}`)
-      : alert("로그인 후 이용 가능합니다!");
+      : toast.warn({
+          title: "로그인",
+          content: "로그인 후 이용해주세요!",
+          duration: 3000,
+        });
   };
 
   return { getPostByTypeData, movePostId, movePostCreate };

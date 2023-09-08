@@ -25,7 +25,7 @@ const MainList = () => {
               <Content
                 key={`${item.title}-${index}`}
                 onClick={() => {
-                  router.push(`/list/${index + 1}`);
+                  router.push(`/list/${item.title}`);
                 }}
               >
                 <Image

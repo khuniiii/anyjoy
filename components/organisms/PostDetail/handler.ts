@@ -1,12 +1,15 @@
+import { GetPostByTypeDocument } from "@/graphql/queries/getPostByType.graphql";
 import { StatesType } from "./type";
 
 const useHandlers = (states: StatesType) => {
   const {
     getOnePostById,
     incrementView,
+    deletePostById,
     setPostData,
     viewedPosts,
     setViewedPosts,
+    router,
   } = states;
 
   const getOnePostByIdData = async (_id: string) => {
@@ -41,7 +44,25 @@ const useHandlers = (states: StatesType) => {
     }
   };
 
-  return { getOnePostByIdData, handleIncrementViews };
+  const deletePost = async (_id: string, type: string) => {
+    await deletePostById({
+      variables: {
+        input: {
+          _id,
+        },
+      },
+      refetchQueries: [
+        {
+          query: GetPostByTypeDocument,
+          variables: { input: { type } },
+        },
+      ],
+    });
+
+    router.replace(`/list/${type}`);
+  };
+
+  return { getOnePostByIdData, handleIncrementViews, deletePost };
 };
 
 export default useHandlers;

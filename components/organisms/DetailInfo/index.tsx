@@ -13,12 +13,12 @@ const DetailInfo = () => {
   const { getAnimeByIdData } = useHandlers(states);
 
   useEffect(() => {
-    if (router.query.id !== undefined) {
-      getAnimeByIdData(Number(router.query.id));
+    if (router.query.title !== undefined) {
+      getAnimeByIdData(router.query.title.toString());
     }
-  }, [router.query.id !== undefined]);
+  }, [router.query.title !== undefined]);
 
-  console.log(aniInfo);
+  console.log(router, aniInfo);
 
   return (
     <>
@@ -37,11 +37,11 @@ const DetailInfo = () => {
                   margin: "0 auto",
                 }}
               >
-                <Image
+                {/* <Image
                   src={item.image}
                   alt={`listImage_${index}`}
                   layout="fill"
-                />
+                /> */}
               </div>
 
               <Content>

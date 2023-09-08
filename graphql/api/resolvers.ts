@@ -2,6 +2,7 @@ import { resolvers as scalarResolvers } from "graphql-scalars";
 
 import { createAnimeInfo } from "./mutations/createAnimeInfo";
 import { createPost } from "./mutations/createPost";
+import { deletePost } from "./mutations/deletePost";
 import { incrementView } from "./mutations/incrementView";
 
 import { getAnimeList } from "./queries/animeList";
@@ -14,6 +15,7 @@ const resolvers = {
   Mutation: {
     createAnimeInfo,
     createPost,
+    deletePost,
     incrementView,
   },
   Query: {

@@ -4,7 +4,7 @@ type Query {
 
 input GetAnimeByIdInput {
   is_show: Boolean
-  id: Int
+  title: String
 }
 
 type AnimeList {
