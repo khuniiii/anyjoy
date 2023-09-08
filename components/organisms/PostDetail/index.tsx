@@ -10,16 +10,20 @@ import {
   Divider,
   PostSub,
   PostContent,
+  DelBtn,
 } from "./style";
+import { useSession } from "next-auth/react";
 
 const PostDetail = () => {
+  const { data: session } = useSession();
   const states = useStates();
   const { postData, router, setViewedPosts } = states;
   const { query } = router;
 
-  const { getOnePostByIdData, handleIncrementViews } = useHandlers(states);
+  const admin = session?.user.role;
 
-  console.log(query);
+  const { getOnePostByIdData, handleIncrementViews, deletePost } =
+    useHandlers(states);
 
   useEffect(() => {
     if (typeof query._id === "string") {
@@ -53,6 +57,13 @@ const PostDetail = () => {
                   작성 일시:
                   {item.createdAt ? formattedDate(item.createdAt) : ""}
                 </p>
+                {admin && (
+                  <DelBtn
+                    onClick={() => item.type && deletePost(item._id, item.type)}
+                  >
+                    삭제
+                  </DelBtn>
+                )}
               </PostSub>
 
               <Divider />

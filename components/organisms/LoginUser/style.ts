@@ -10,7 +10,7 @@ export const Container = styled("div", {
   justifyContent: "center",
   position: "relative",
   margin: "auto",
-  top: "10%",
+  top: "20%",
   border: "10px solid transparent",
   borderRadius: "10px",
   backgroundImage:

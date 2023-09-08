@@ -50,7 +50,7 @@ export const PostSub = styled("div", {
 
 export const Divider = styled("div", {
   border: "1px solid #000000",
-  marginLeft: "10px",
+  margin: "0 10px",
 });
 
 export const PostContent = styled("div", {
@@ -59,4 +59,27 @@ export const PostContent = styled("div", {
 
   fontSize: "16px",
   fontWeight: "500",
+});
+
+export const DelBtn = styled("button", {
+  display: "flex",
+  alignItems: "center", // align-items 값을 문자열로 변경
+  justifyContent: "center", // justify-content 값을 문자열로 변경
+  height: "18px",
+  width: "36px",
+  padding: "0", // padding 값을 '0'으로 설정
+  border: "none",
+  borderRadius: "5px",
+  fontFamily: "SUIT",
+  fontWeight: "500",
+  fontSize: "10px",
+  lineHeight: "24px",
+  background: "#d8f7e6",
+  cursor: "pointer",
+  color: "#038235 !important",
+
+  "@mobile": {
+    width: "26px",
+    height: "15px",
+  },
 });

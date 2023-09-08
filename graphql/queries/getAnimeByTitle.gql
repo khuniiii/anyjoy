@@ -1,5 +1,5 @@
-query getAnimeById($input: GetAnimeByIdInput!) {
-  getAnimeById(input: $input) {
+query getAnimeByTitle($input: GetAnimeByTitleInput!) {
+  getAnimeByTitle(input: $input) {
     title
     author
     company

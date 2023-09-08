@@ -8,6 +8,9 @@ import {
   AccountText,
   MobLogin,
   PcLogin,
+  SideContainer,
+  SideLoginBtn,
+  SideLogin,
 } from "./style";
 import Hamburger from "@/components/common/SVG/Hamburger";
 
@@ -15,11 +18,13 @@ import Cookies from "js-cookie";
 
 import useStates from "./state";
 import { useEffect } from "react";
+import Close from "@/components/common/SVG/Close";
+import { useScrollLockBody } from "@/components/common/hook/useScrollLock";
 
 const Header = () => {
   const { data: session, status } = useSession();
   const states = useStates();
-  const { isMobile, router } = states;
+  const { isMobile, router, openSide, setOpenSide } = states;
   console.log(session);
 
   useEffect(() => {
@@ -29,6 +34,14 @@ const Header = () => {
   const logout = () => {
     Cookies.remove("token");
     signOut();
+  };
+
+  const goLogin = () => {
+    router.push("/login");
+  };
+
+  const openSideMenu = () => {
+    setOpenSide(!openSide);
   };
 
   const getMenuIcon = () => {
@@ -45,59 +58,58 @@ const Header = () => {
     }
   };
 
-  const getLoginText = () => {
-    if (isMobile) {
-      return (
-        <>
-          <Hamburger />
-        </>
-      );
-    } else {
-      return (
-        <>
-          <Link href="/login" passHref>
-            <AccountText>로그인</AccountText>
-          </Link>
-          <Link href="/join" passHref>
-            <AccountText>회원가입</AccountText>
-          </Link>
-        </>
-      );
-    }
-  };
+  const token = Cookies.get("token");
+
+  console.log(openSide);
+
+  useScrollLockBody(openSide);
+
   return (
-    <HeaderContainer>
-      <HeaderList>
-        <Link href="/" passHref>
-          <HeaderText>Home</HeaderText>
-        </Link>
+    <>
+      <HeaderContainer>
+        <HeaderList>
+          <Link href="/" passHref>
+            <HeaderText>Home</HeaderText>
+          </Link>
 
-        {getMenuIcon()}
-      </HeaderList>
+          {getMenuIcon()}
+        </HeaderList>
 
-      <AccountList>
-        <MobLogin>
-          <Hamburger />
-        </MobLogin>
+        <AccountList>
+          <MobLogin>
+            <div onClick={openSideMenu}>
+              {openSide ? <Close /> : <Hamburger />}
+            </div>
+          </MobLogin>
 
-        <PcLogin>
-          {status === "authenticated" ? (
-            <>
-              <AccountText onClick={logout}>로그아웃</AccountText>
-            </>
-          ) : (
-            <>
-              <Link href="/login" passHref>
-                <AccountText>로그인</AccountText>
-              </Link>
-              <Link href="/join" passHref>
-                <AccountText>회원가입</AccountText>
-              </Link>
-            </>
-          )}
-        </PcLogin>
-      </AccountList>
-    </HeaderContainer>
+          <PcLogin>
+            {status === "authenticated" ? (
+              <>
+                <AccountText onClick={logout}>로그아웃</AccountText>
+              </>
+            ) : (
+              <>
+                <Link href="/login" passHref>
+                  <AccountText>로그인</AccountText>
+                </Link>
+                <Link href="/join" passHref>
+                  <AccountText>회원가입</AccountText>
+                </Link>
+              </>
+            )}
+          </PcLogin>
+        </AccountList>
+      </HeaderContainer>
+      {openSide && (
+        <SideContainer>
+          <SideLogin>
+            <SideLoginBtn onClick={token ? logout : goLogin}>
+              {token ? "로그아웃" : "로그인하기"}
+            </SideLoginBtn>
+          </SideLogin>
+        </SideContainer>
+      )}
+    </>
   );
 };
 

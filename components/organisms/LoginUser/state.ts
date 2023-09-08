@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const useStates = () => {
@@ -5,7 +6,9 @@ const useStates = () => {
   const [loginPassword, setLoginPassword] = useState<string>("");
   const [loginUserInfo, setLoginUserInfo] = useState();
 
-  const getter = { loginEmail, loginPassword, loginUserInfo };
+  const router = useRouter();
+
+  const getter = { loginEmail, loginPassword, loginUserInfo, router };
   const setter = { setLoginEmail, setLoginPassword, setLoginUserInfo };
 
   return { ...getter, ...setter };
