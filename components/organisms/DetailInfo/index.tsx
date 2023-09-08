@@ -10,11 +10,11 @@ import PostList from "@/components/organisms/PostList/index";
 const DetailInfo = () => {
   const states = useStates();
   const { router, aniInfo } = states;
-  const { getAnimeByIdData } = useHandlers(states);
+  const { getAnimeByTitleData } = useHandlers(states);
 
   useEffect(() => {
     if (router.query.title !== undefined) {
-      getAnimeByIdData(router.query.title.toString());
+      getAnimeByTitleData(router.query.title.toString());
     }
   }, [router.query.title !== undefined]);
 
@@ -22,7 +22,7 @@ const DetailInfo = () => {
 
   return (
     <>
-      {aniInfo?.getAnimeById.map((item, index) => {
+      {aniInfo?.getAnimeByTitle.map((item, index) => {
         if (!item.image || !item.genre) return;
         return (
           <>
@@ -60,7 +60,7 @@ const DetailInfo = () => {
             </ContentContainer>
 
             <div style={{ paddingBottom: "40px" }}>
-              <PostList title={aniInfo.getAnimeById[0].title as string} />
+              <PostList title={aniInfo.getAnimeByTitle[0].title as string} />
             </div>
           </>
         );

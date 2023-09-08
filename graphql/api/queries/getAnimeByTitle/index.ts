@@ -1,6 +1,6 @@
 import { Anime } from "@/lib/model/anime";
 
-export const getAnimeById = async (
+export const getAnimeByTitle = async (
   _: unknown,
   { input }: { input: { is_show: boolean; title: string } },
 ): Promise<unknown> => {

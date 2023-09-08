@@ -6,7 +6,7 @@ import { deletePost } from "./mutations/deletePost";
 import { incrementView } from "./mutations/incrementView";
 
 import { getAnimeList } from "./queries/animeList";
-import { getAnimeById } from "./queries/getAnimeById";
+import { getAnimeByTitle } from "./queries/getAnimeByTitle";
 import { getPostByType } from "./queries/getPostByType";
 import { getOnePostById } from "./queries/getOnePostById";
 
@@ -20,7 +20,7 @@ const resolvers = {
   },
   Query: {
     getAnimeList,
-    getAnimeById,
+    getAnimeByTitle,
     getPostByType,
     getOnePostById,
   },

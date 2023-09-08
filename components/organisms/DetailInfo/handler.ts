@@ -1,12 +1,12 @@
 import { StatesType } from "./type";
 
 const useHandlers = (states: StatesType) => {
-  const { getAnimeById, setAniInfo } = states;
+  const { getAnimeByTitle, setAniInfo } = states;
 
-  const getAnimeByIdData = async (title: string) => {
+  const getAnimeByTitleData = async (title: string) => {
     console.log("id:", title);
     try {
-      const { data } = await getAnimeById({
+      const { data } = await getAnimeByTitle({
         variables: {
           input: {
             is_show: true,
@@ -20,7 +20,7 @@ const useHandlers = (states: StatesType) => {
     }
   };
 
-  return { getAnimeByIdData };
+  return { getAnimeByTitleData };
 };
 
 export default useHandlers;

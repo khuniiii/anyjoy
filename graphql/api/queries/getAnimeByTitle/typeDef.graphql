@@ -1,8 +1,8 @@
 type Query {
-  getAnimeById(input: GetAnimeByIdInput!): [AnimeList!]!
+  getAnimeByTitle(input: GetAnimeByTitleInput!): [AnimeList!]!
 }
 
-input GetAnimeByIdInput {
+input GetAnimeByTitleInput {
   is_show: Boolean
   title: String
 }
