@@ -33,6 +33,7 @@ const MainList = () => {
                   alt={`listImage_${index}`}
                   width={350}
                   height={550}
+                  loading="lazy"
                 />
                 <Title>{item.title}</Title>
               </Content>
