@@ -70,6 +70,7 @@ const PostDetail = () => {
 
               <PostContent>
                 <div
+                  style={{ width: "100%" }}
                   dangerouslySetInnerHTML={{
                     __html: item.content ? item.content : "",
                   }}

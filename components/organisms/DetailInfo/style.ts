@@ -8,6 +8,10 @@ export const ContentContainer = styled("div", {
 
   padding: "10px 10px",
 
+  img: {
+    borderRadius: "15px",
+  },
+
   "@mobile": {
     display: "block",
     image: {

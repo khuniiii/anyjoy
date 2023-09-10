@@ -37,11 +37,14 @@ const DetailInfo = () => {
                   margin: "0 auto",
                 }}
               >
-                {/* <Image
+                <Image
                   src={item.image}
                   alt={`listImage_${index}`}
                   layout="fill"
-                /> */}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+                />
               </div>
 
               <Content>

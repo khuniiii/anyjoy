@@ -1,0 +1,13 @@
+type Query {
+  getCommentList(input: GetCommentListInput!): [CommentList!]!
+}
+
+input GetCommentListInput {
+  commentId: String!
+}
+
+type CommentList {
+  _id: String!
+  comment: String!
+  createdAt: String
+}
