@@ -1,0 +1,7 @@
+query getCommentList($input: GetCommentListInput!) {
+  getCommentList(input: $input) {
+    _id
+    comment
+    createdAt
+  }
+}

@@ -2,7 +2,9 @@ import { styled } from "stitches.config";
 
 export const PostContainer = styled("div", {
   width: "100%",
-  height: "300px",
+
+  minHeight: "100px",
+  height: "auto",
 
   padding: "10px",
 });
@@ -59,6 +61,20 @@ export const PostContent = styled("div", {
 
   fontSize: "16px",
   fontWeight: "500",
+
+  ul: { paddingLeft: "20px" },
+  ol: {
+    paddingLeft: "20px",
+  },
+  img: {
+    width: "100%",
+  },
+  a: {
+    color: "blue",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
 });
 
 export const DelBtn = styled("button", {

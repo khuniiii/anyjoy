@@ -33,6 +33,9 @@ const MainList = () => {
                   alt={`listImage_${index}`}
                   width={350}
                   height={550}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                 />
                 <Title>{item.title}</Title>
               </Content>
