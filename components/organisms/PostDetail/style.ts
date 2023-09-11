@@ -9,10 +9,7 @@ export const PostContainer = styled("div", {
   padding: "10px",
 });
 
-export const PostWrapper = styled("div", {
-  border: "1px solid red",
-  borderRadius: "10px",
-});
+export const PostWrapper = styled("div", {});
 
 export const PostTitle = styled("div", {
   width: "100%",
@@ -50,9 +47,25 @@ export const PostSub = styled("div", {
   },
 });
 
+export const PostType = styled("div", {
+  cursor: "pointer",
+  "&:hover": {
+    color: "blue",
+    textDecoration: "underline",
+  },
+});
+
 export const Divider = styled("div", {
   border: "1px solid #000000",
   margin: "0 10px",
+
+  variants: {
+    post: {
+      true: {
+        margin: "10px 0",
+      },
+    },
+  },
 });
 
 export const PostContent = styled("div", {

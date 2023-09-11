@@ -1,9 +1,9 @@
 import { styled } from "stitches.config";
 
 export const PostListContainer = styled("div", {
-  width: "95%",
+  width: "100%",
   margin: "0 auto",
-  border: "1px solid red",
+
   borderRadius: "10px",
 
   padding: "10px",
@@ -22,6 +22,10 @@ export const PostWrapper = styled("li", {
   backgroundColor: "#E5E5E5",
   border: "1px solid transparent",
   borderRadius: "5px",
+
+  "&:last-child": {
+    marginBottom: "0",
+  },
 });
 
 export const Title = styled("p", {

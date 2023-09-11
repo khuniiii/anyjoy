@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import CommentList from "@/components/organisms/PostComment";
+
 import useStates from "@/components/organisms/PostDetail/state";
 import useHandlers from "@/components/organisms/PostDetail/handler";
 import { formattedDate } from "@/utils/date/format";
@@ -11,6 +13,7 @@ import {
   PostSub,
   PostContent,
   DelBtn,
+  PostType,
 } from "./style";
 import { useSession } from "next-auth/react";
 
@@ -40,6 +43,8 @@ const PostDetail = () => {
 
   if (typeof query._id === "string") handleIncrementViews(query._id);
 
+  console.log(query._id);
+
   return (
     <>
       <PostContainer>
@@ -51,10 +56,12 @@ const PostDetail = () => {
               </PostTitle>
 
               <PostSub>
-                <p>[{item.type}]</p>
+                <PostType onClick={() => router.push(`/list/${item.type}`)}>
+                  <p>[{item.type}]</p>
+                </PostType>
                 <p>조회수: {item.views}</p>
                 <p>
-                  작성 일시:
+                  작성 일시:&nbsp;
                   {item.createdAt ? formattedDate(item.createdAt) : ""}
                 </p>
                 {admin && (
@@ -80,6 +87,8 @@ const PostDetail = () => {
           );
         })}
       </PostContainer>
+
+      {query._id && <CommentList id={query._id.toString()} />}
     </>
   );
 };
