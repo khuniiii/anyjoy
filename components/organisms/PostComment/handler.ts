@@ -17,6 +17,10 @@ const useHandlers = (states: StatesType) => {
 
     setExpandedComments,
     expandedComments,
+
+    currentPage,
+    setCurrentPage,
+    totalPages,
   } = states;
   const toast = useToast();
 
@@ -149,12 +153,34 @@ const useHandlers = (states: StatesType) => {
     getRecommentListData(commentId); // 댓글의 id를 넣어서 대댓글 리스트를 조회
   };
 
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // 다음 페이지로 이동
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPage = (pageNumber: number) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return {
     getCommentListData,
     getRecommentListData,
     createCommentData,
     createRecommentData,
     toggleComment,
+    goToPreviousPage,
+    goToNextPage,
+    goToPage,
   };
 };
 
