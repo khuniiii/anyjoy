@@ -63,6 +63,8 @@ export const SideContainer = styled("div", {
   display: "flex",
   width: "100%",
 
+  zIndex: "2",
+
   height: "100vh",
   padding: "10px 20px 30px",
   backgroundColor: "#FFFFFF",
