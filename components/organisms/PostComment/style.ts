@@ -94,3 +94,10 @@ export const CommentTitle = styled("p", {
 
   marginBottom: "10px",
 });
+
+export const MoveBtn = styled("button", {
+  background: "#d8f7e6",
+  color: "#038235",
+
+  border: "1px solid transparent",
+});
