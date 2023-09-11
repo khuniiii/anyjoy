@@ -22,11 +22,26 @@ const useStates = () => {
   const [recomment, setRecomment] = useState<string>();
   const [recommentList, setRecommentList] = useState<GetCommentListQuery>();
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   const token = Cookies.get("token");
 
   const router = useRouter();
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const PAGE_LIMIT = 5; // 페이지당 최대 개수
+
+  const startIndex = (currentPage - 1) * PAGE_LIMIT;
+  const endIndex = startIndex + PAGE_LIMIT;
+  const currentCommentList = commentList?.getCommentList.slice(
+    startIndex,
+    endIndex,
+  );
+
+  const totalPages = Math.ceil(
+    (commentList?.getCommentList.length || 0) / PAGE_LIMIT,
+  );
 
   const getter = {
     router,
@@ -40,8 +55,13 @@ const useStates = () => {
     recomment,
     recommentList,
 
+    currentPage,
+
     token,
     textareaRef,
+
+    totalPages,
+    currentCommentList,
   };
   const setter = {
     createComment,
@@ -54,6 +74,8 @@ const useStates = () => {
     setOpenRecomment,
     setRecomment,
     setRecommentList,
+
+    setCurrentPage,
   };
 
   return { ...getter, ...setter };

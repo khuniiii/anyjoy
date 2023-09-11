@@ -35,6 +35,10 @@ const CommentList = ({ id }: { id: string }) => {
     setRecomment,
     token,
     textareaRef,
+
+    currentPage,
+    totalPages,
+    currentCommentList,
   } = states;
 
   const {
@@ -42,6 +46,10 @@ const CommentList = ({ id }: { id: string }) => {
     createCommentData,
     createRecommentData,
     toggleComment,
+
+    goToPreviousPage,
+    goToNextPage,
+    goToPage,
   } = useHandlers(states);
 
   useEffect(() => {
@@ -77,12 +85,12 @@ const CommentList = ({ id }: { id: string }) => {
         </CommentBtnWrap>
       </div>
 
-      {commentList ? ( // router.query._id로 게시글에 대한 댓글들을 불러옴
+      {currentCommentList ? ( // router.query._id로 게시글에 대한 댓글들을 불러옴
         <CommentInputWrap>
           <PostListContainer>
             <CommentTitle>댓글</CommentTitle>
             <Divider post={true} />
-            {commentList?.getCommentList.map((item, index) => {
+            {currentCommentList.map((item, index) => {
               return (
                 <>
                   <PostWrapper
@@ -122,7 +130,7 @@ const CommentList = ({ id }: { id: string }) => {
                       </CommentBtnWrap>
 
                       <>
-                        {recommentList ? ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
+                        {recommentList && ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
                           <RecommentListContainer recomment={true}>
                             {recommentList?.getCommentList.map(
                               (item, index) => {
@@ -150,8 +158,6 @@ const CommentList = ({ id }: { id: string }) => {
                               },
                             )}
                           </RecommentListContainer>
-                        ) : (
-                          <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
                         )}
                       </>
                     </>
@@ -163,6 +169,30 @@ const CommentList = ({ id }: { id: string }) => {
         </CommentInputWrap>
       ) : (
         <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
+      )}
+
+      {totalPages > 1 && (
+        <div
+          style={{ display: "flex", justifyContent: "center", margin: "20px" }}
+        >
+          <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+            이전 페이지
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => goToPage(index + 1)}
+              style={{
+                fontWeight: currentPage === index + 1 ? "bold" : "normal",
+              }}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+            다음 페이지
+          </button>
+        </div>
       )}
     </>
   );
