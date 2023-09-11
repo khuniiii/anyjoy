@@ -68,7 +68,8 @@
     "react-quill": "^2.0.0",
     "react-use": "^17.4.0",
     "stitches": "^1.2.11",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vercel": "^32.2.0"
   },
   "devDependencies": {
     "@apollo-elements/rollup-plugin-graphql": "^1.0.3",
