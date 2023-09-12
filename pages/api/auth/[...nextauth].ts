@@ -25,9 +25,7 @@ export default NextAuth({
   },
 
   callbacks: {
-    async jwt({ token, user, account, profile }) {
-      console.log(333, token, user, account, profile);
-
+    async jwt({ token, user, account }) {
       const client = await MongoClient.connect(uri);
       const db = client.db();
 
@@ -54,7 +52,6 @@ export default NextAuth({
     },
 
     async session({ session, token, user }) {
-      console.log(111111111, session, token, user);
       session.user.role = token.role as string;
 
       const testToken = jwt.sign(token, process.env.SECRET as string);
@@ -104,24 +101,52 @@ export default NextAuth({
 
         if (!user) throw new Error("존재하지 않는 아이디입니다.");
 
-        bcrypt.hash(credentials.password, 10, function (err, hash) {
+        // const saltRounds = 12; // 회원가입 시 사용한 솔트 라운드 수
+        // const hashedPassword = bcrypt.hashSync(
+        //   credentials.password,
+        //   saltRounds,
+        // );
+
+        // const isValid = bcrypt.compareSync(hashedPassword, user.password);
+
+        // console.log(
+        //   isValid,
+        //   credentials.password,
+        //   hashedPassword,
+        //   user.password,
+        // );
+
+        // if (isValid) {
+        //   // 비밀번호가 일치하는 경우
+        //   console.log("로그인 성공");
+        //   client.close();
+        // } else {
+        //   // 비밀번호가 일치하지 않는 경우
+        //   console.log("로그인 실패");
+        //   client.close();
+        //   throw new Error("credentials error");
+        // }
+
+        bcrypt.hash(credentials.password, 12, function (err, hash) {
           if (err) {
             throw err;
           } else {
-            bcrypt.compare(user?.password, hash, function (err, result) {
+            bcrypt.compare(user.password, hash, function (err, result) {
               if (err) {
                 throw err;
               }
-              if (!result) throw new Error("비밀번호가 불일치합니다.");
-
-              console.log("result:", result);
+              console.log(result, user.password, hash);
+              if (!result) {
+                throw new Error("credentials error");
+              } else {
+                client.close();
+                return user;
+              }
             });
           }
         });
 
         if (user) {
-          client.close();
-
           return user as any;
         } else {
           return null;

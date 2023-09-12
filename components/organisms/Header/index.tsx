@@ -17,6 +17,7 @@ import Hamburger from "@/components/common/SVG/Hamburger";
 import Cookies from "js-cookie";
 
 import useStates from "./state";
+import useHandlers from "./handler";
 import { useEffect } from "react";
 import Close from "@/components/common/SVG/Close";
 import { useScrollLockBody } from "@/components/common/hook/useScrollLock";
@@ -24,24 +25,12 @@ import { useScrollLockBody } from "@/components/common/hook/useScrollLock";
 const Header = () => {
   const { data: session, status } = useSession();
   const states = useStates();
-  const { isMobile, router, openSide, setOpenSide } = states;
+  const { token, isMobile, openSide } = states;
+  const { logout, goLogin, goJoin, openSideMenu } = useHandlers(states);
 
   useEffect(() => {
     if (session) Cookies.set("token", session.user.token, { expires: 1 / 24 });
   }, [session]);
-
-  const logout = () => {
-    Cookies.remove("token");
-    signOut();
-  };
-
-  const goLogin = () => {
-    router.push("/login");
-  };
-
-  const openSideMenu = () => {
-    setOpenSide(!openSide);
-  };
 
   const getMenuIcon = () => {
     if (!isMobile) {
@@ -56,8 +45,6 @@ const Header = () => {
       );
     }
   };
-
-  const token = Cookies.get("token");
 
   useScrollLockBody(openSide);
 
@@ -100,8 +87,9 @@ const Header = () => {
       {openSide && (
         <SideContainer>
           <SideLogin>
+            {!token && <SideLoginBtn onClick={goJoin}>회원가입</SideLoginBtn>}
             <SideLoginBtn onClick={token ? logout : goLogin}>
-              {token ? "로그아웃" : "로그인하기"}
+              {token ? "로그아웃" : "로그인"}
             </SideLoginBtn>
           </SideLogin>
         </SideContainer>

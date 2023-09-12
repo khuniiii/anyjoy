@@ -1,9 +1,11 @@
+import { useToast } from "@/components/common/hook/useToast";
 import { StatesType } from "./type";
 import { signIn } from "next-auth/react";
 import { FormEvent } from "react";
 
 const useHandlers = (states: StatesType) => {
   const { loginEmail, loginPassword, router } = states;
+  const toast = useToast();
 
   const login = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -18,8 +20,20 @@ const useHandlers = (states: StatesType) => {
       });
       console.log(1234, response);
 
-      router.replace("/");
-      if (response?.error) console.error(response?.error);
+      if (response && response.error) {
+        toast.error({
+          title: "로그인 실패",
+          content: "아이디와 비밀번호를 확인해주세요",
+          duration: 5000,
+        });
+      } else {
+        toast.success({
+          title: "로그인 성공",
+          content: "환영합니다.",
+          duration: 5000,
+        });
+        router.replace("/");
+      }
     } catch (error) {
       console.error("error", error);
     }

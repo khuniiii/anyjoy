@@ -4,7 +4,7 @@ import useStates from "@/components/organisms/PostCreate/state";
 import useHandlers from "@/components/organisms/PostCreate/handler";
 
 import dynamic from "next/dynamic";
-import { TitleInput } from "./style";
+import { CreateBtn, TitleInput } from "./style";
 
 const EditorComponent = dynamic(
   () => import("@/components/organisms/PostCreate/QuillEditor"),
@@ -43,9 +43,13 @@ const PostCreate = () => {
         onChange={handleContentChange}
       />
 
-      <button onClick={e => createPostByType(String(router.query.type), e)}>
-        작성하기
-      </button>
+      <div style={{ padding: "10px", display: "flex" }}>
+        <CreateBtn
+          onClick={e => createPostByType(String(router.query.type), e)}
+        >
+          작성하기
+        </CreateBtn>
+      </div>
     </>
   );
 };

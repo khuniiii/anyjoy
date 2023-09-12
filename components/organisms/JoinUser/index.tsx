@@ -14,14 +14,15 @@ import useHandlers from "./handler";
 const JoinUser = () => {
   const { data, status } = useSession();
   const states = useStates();
+  const {} = states;
   const {
-    setJoinEmail,
-    setJoinName,
-    setJoinPassword,
-    setJoinPhoneNumber,
-    setJoinBirth,
-  } = states;
-  const { register } = useHandlers(states);
+    register,
+    handleEmailChange,
+    handleNameChange,
+    handlePasswordChange,
+    handlePhoneNumberChange,
+    handleBirthChange,
+  } = useHandlers(states);
   console.log(data, status);
   return (
     <>
@@ -36,27 +37,27 @@ const JoinUser = () => {
             <JoinInput
               placeholder="이메일"
               type="email"
-              onChange={e => setJoinEmail(e.target.value)}
+              onChange={e => handleEmailChange(e.target.value)}
             />
             <JoinInput
               placeholder="이름"
               type="text"
-              onChange={e => setJoinName(e.target.value)}
+              onChange={e => handleNameChange(e.target.value)}
             />
             <JoinInput
               placeholder="비밀번호"
               type="password"
-              onChange={e => setJoinPassword(e.target.value)}
+              onChange={e => handlePasswordChange(e.target.value)}
             />
             <JoinInput
               placeholder="전화번호"
               type="number"
-              onChange={e => setJoinPhoneNumber(e.target.value)}
+              onChange={e => handlePhoneNumberChange(e.target.value)}
             />
             <JoinInput
               placeholder="주민번호앞자리"
               type="number"
-              onChange={e => setJoinBirth(e.target.value)}
+              onChange={e => handleBirthChange(Number(e.target.value))}
             />
             <JoinBtn type="submit">회원가입하기</JoinBtn>
           </JoinGroup>
