@@ -25,7 +25,6 @@ const Header = () => {
   const { data: session, status } = useSession();
   const states = useStates();
   const { isMobile, router, openSide, setOpenSide } = states;
-  console.log(session);
 
   useEffect(() => {
     if (session) Cookies.set("token", session.user.token, { expires: 1 / 24 });
@@ -59,8 +58,6 @@ const Header = () => {
   };
 
   const token = Cookies.get("token");
-
-  console.log(openSide);
 
   useScrollLockBody(openSide);
 

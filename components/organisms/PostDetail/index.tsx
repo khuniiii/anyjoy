@@ -43,8 +43,6 @@ const PostDetail = () => {
 
   if (typeof query._id === "string") handleIncrementViews(query._id);
 
-  console.log(query._id);
-
   return (
     <>
       <PostContainer>

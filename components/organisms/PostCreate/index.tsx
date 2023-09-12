@@ -19,8 +19,6 @@ const PostCreate = () => {
   const { router, setTitle, setContent, title, content, token } = states;
   const { createPostByType } = useHandlers(states);
 
-  console.log(title?.length, content?.length);
-
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
   };

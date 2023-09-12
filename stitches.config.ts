@@ -9,7 +9,7 @@ export const { styled } = createStitches({
     },
   },
   media: {
-    mobile: "(max-width: 550px)",
+    mobile: "(max-width: 768px)",
   },
 });
 
