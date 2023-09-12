@@ -11,6 +11,7 @@ import {
   RecommentListContainer,
   CommentInputWrap,
   CommentTitle,
+  MoveBtn,
 } from "./style";
 import {
   PostInfo,
@@ -173,13 +174,19 @@ const CommentList = ({ id }: { id: string }) => {
 
       {totalPages > 1 && (
         <div
-          style={{ display: "flex", justifyContent: "center", margin: "20px" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            gap: "10px",
+          }}
         >
-          <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-            이전 페이지
-          </button>
+          <MoveBtn onClick={goToPreviousPage} disabled={currentPage === 1}>
+            prev
+          </MoveBtn>
           {Array.from({ length: totalPages }, (_, index) => (
-            <button
+            <MoveBtn
+              number={true}
               key={index}
               onClick={() => goToPage(index + 1)}
               style={{
@@ -187,11 +194,11 @@ const CommentList = ({ id }: { id: string }) => {
               }}
             >
               {index + 1}
-            </button>
+            </MoveBtn>
           ))}
-          <button onClick={goToNextPage} disabled={currentPage === totalPages}>
-            다음 페이지
-          </button>
+          <MoveBtn onClick={goToNextPage} disabled={currentPage === totalPages}>
+            next
+          </MoveBtn>
         </div>
       )}
     </>

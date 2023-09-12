@@ -2,7 +2,16 @@ import { useToast } from "@/components/common/hook/useToast";
 import { StatesType } from "./type";
 
 const useHandlers = (states: StatesType) => {
-  const { getPostByType, setPostList, router, token } = states;
+  const {
+    getPostByType,
+    setPostList,
+    setArrayType,
+    router,
+    token,
+    arrayType,
+    timeOrderPostList,
+    viewOrderPostList,
+  } = states;
   const toast = useToast();
 
   const getPostByTypeData = async (type: string) => {
@@ -34,7 +43,28 @@ const useHandlers = (states: StatesType) => {
         });
   };
 
-  return { getPostByTypeData, movePostId, movePostCreate };
+  const viewOrderByTypeList = () => {
+    switch (arrayType) {
+      case "view":
+        return timeOrderPostList;
+      case "date":
+        return viewOrderPostList;
+      default:
+        return timeOrderPostList;
+    }
+  };
+
+  const selectArrType = (value: string) => {
+    setArrayType(value);
+  };
+
+  return {
+    getPostByTypeData,
+    movePostId,
+    movePostCreate,
+    viewOrderByTypeList,
+    selectArrType,
+  };
 };
 
 export default useHandlers;

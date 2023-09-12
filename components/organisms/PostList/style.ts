@@ -73,3 +73,13 @@ export const CreateBtn = styled("button", {
   alignItems: "center",
   justifyContent: "center ",
 });
+
+export const SelectBox = styled("select", {
+  outline: "none",
+  border: "none",
+  backgroundColor: "#d8f7e6",
+  color: "#038235",
+  padding: "5px",
+
+  marginLeft: "auto",
+});

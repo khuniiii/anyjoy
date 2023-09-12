@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import useStates from "@/components/organisms/PostList/state";
 import useHandlers from "@/components/organisms/PostList/handler";
@@ -7,17 +7,22 @@ import {
   PostListContainer,
   PostWrapper,
   Title,
+  SelectBox,
   CreateBtn,
 } from "./style";
 import { formattedDate } from "@/utils/date/format";
 
-const PostList = ({ title }: { title: string }) => {
+const PostList = ({ title }: { title: string }): JSX.Element => {
   const states = useStates();
-  const { postList } = states;
+  const { OPTIONS, arrayType } = states;
 
-  const { getPostByTypeData, movePostId, movePostCreate } = useHandlers(states);
-
-  console.log(postList);
+  const {
+    getPostByTypeData,
+    movePostId,
+    movePostCreate,
+    viewOrderByTypeList,
+    selectArrType,
+  } = useHandlers(states);
 
   useEffect(() => {
     getPostByTypeData(title);
@@ -28,7 +33,19 @@ const PostList = ({ title }: { title: string }) => {
       <div style={{ padding: "10px" }}>
         <PostListContainer>
           <Title size="main">{title} 게시판</Title>
-          {postList?.getPostByType.map((item, index) => {
+          <div style={{ display: "flex", paddingBottom: "10px" }}>
+            <SelectBox onChange={e => selectArrType(e.target.value)}>
+              {OPTIONS.map(option => {
+                return (
+                  <option key={option.value} value={option.value}>
+                    {option.name}
+                  </option>
+                );
+              })}
+            </SelectBox>
+          </div>
+
+          {viewOrderByTypeList()?.map((item, index) => {
             return (
               <PostWrapper
                 key={`${item.type}-${index}`}
