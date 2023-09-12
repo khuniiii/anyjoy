@@ -18,8 +18,6 @@ const DetailInfo = () => {
     }
   }, [router.query.title !== undefined]);
 
-  console.log(router, aniInfo);
-
   return (
     <>
       {aniInfo?.getAnimeByTitle.map((item, index) => {

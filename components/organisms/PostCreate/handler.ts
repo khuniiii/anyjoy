@@ -51,7 +51,6 @@ const useHandlers = (states: StatesType) => {
         });
 
         router.push("/list");
-        console.log(data);
       } catch (error) {
         console.error(error);
       }

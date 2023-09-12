@@ -37,8 +37,6 @@ const useHandlers = (states: StatesType) => {
           "Content-Type": "application/json",
         },
       });
-
-      console.log(res);
     } catch (err) {
       console.error(err);
     }

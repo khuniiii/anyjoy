@@ -91,8 +91,6 @@ const useHandlers = (states: StatesType) => {
         });
         setComment("");
         router.query._id && getCommentListData(router.query._id?.toString());
-
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -136,8 +134,6 @@ const useHandlers = (states: StatesType) => {
         });
         setRecomment("");
         commentId && getRecommentListData(commentId);
-
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
