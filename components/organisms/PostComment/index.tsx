@@ -174,13 +174,19 @@ const CommentList = ({ id }: { id: string }) => {
 
       {totalPages > 1 && (
         <div
-          style={{ display: "flex", justifyContent: "center", margin: "20px" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            gap: "10px",
+          }}
         >
           <MoveBtn onClick={goToPreviousPage} disabled={currentPage === 1}>
             prev
           </MoveBtn>
           {Array.from({ length: totalPages }, (_, index) => (
-            <button
+            <MoveBtn
+              number={true}
               key={index}
               onClick={() => goToPage(index + 1)}
               style={{
@@ -188,7 +194,7 @@ const CommentList = ({ id }: { id: string }) => {
               }}
             >
               {index + 1}
-            </button>
+            </MoveBtn>
           ))}
           <MoveBtn onClick={goToNextPage} disabled={currentPage === totalPages}>
             next

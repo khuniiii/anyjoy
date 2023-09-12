@@ -98,6 +98,17 @@ export const CommentTitle = styled("p", {
 export const MoveBtn = styled("button", {
   background: "#d8f7e6",
   color: "#038235",
-
+  padding: "5px",
   border: "1px solid transparent",
+  borderRadius: "5px",
+
+  variants: {
+    number: {
+      true: {
+        "&:hober": {
+          fontWeight: "700 !important",
+        },
+      },
+    },
+  },
 });
