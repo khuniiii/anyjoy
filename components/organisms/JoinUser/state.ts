@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const useStates = () => {
@@ -13,6 +14,8 @@ const useStates = () => {
   const [validPhoneNumber, setValidPhoneNumber] = useState(false);
   const [validBirth, setValidBirth] = useState(false);
 
+  const router = useRouter();
+
   const getter = {
     joinEmail,
     joinName,
@@ -24,6 +27,7 @@ const useStates = () => {
     validPassword,
     validPhoneNumber,
     validBirth,
+    router,
   };
   const setter = {
     setJoinEmail,

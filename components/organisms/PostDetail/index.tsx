@@ -23,7 +23,7 @@ const PostDetail = () => {
   const { postData, router, setViewedPosts } = states;
   const { query } = router;
 
-  const admin = session?.user.role;
+  const admin = session?.user.role === "admin";
 
   const { getOnePostByIdData, handleIncrementViews, deletePost } =
     useHandlers(states);
@@ -42,6 +42,8 @@ const PostDetail = () => {
   }, []);
 
   if (typeof query._id === "string") handleIncrementViews(query._id);
+
+  console.log(session?.user.role);
 
   return (
     <>

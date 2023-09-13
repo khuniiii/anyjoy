@@ -11,63 +11,11 @@ import * as bcrypt from "bcrypt";
 
 const uri: string = process.env.MONGODB_URI as string;
 
+const cookiePrefix = "";
+const useSecureCookies = false;
+
 export default NextAuth({
   adapter: MongoDBAdapter(MongoClient.connect(uri)),
-
-  secret: process.env.SECRET,
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 60,
-  },
-
-  jwt: {
-    maxAge: 60 * 60,
-  },
-
-  callbacks: {
-    async jwt({ token, user, account, profile }) {
-      console.log(333, token, user, account, profile);
-
-      const client = await MongoClient.connect(uri);
-      const db = client.db();
-
-      if (account?.provider === "kakao" || account?.provider === "naver") {
-        const client = await MongoClient.connect(uri);
-        const user = await client.db().collection("users").findOne({
-          email: token?.email,
-        });
-        if (!user) {
-          await db.collection("users").insertOne({
-            email: token.email,
-            name: token.name,
-            role: "user",
-          });
-        }
-      }
-
-      if (user) {
-        token.name = user.name;
-        token.role = user.role;
-      }
-
-      return token;
-    },
-
-    async session({ session, token, user }) {
-      console.log(111111111, session, token, user);
-      session.user.role = token.role as string;
-
-      const testToken = jwt.sign(token, process.env.SECRET as string);
-      session.user.token = testToken;
-
-      return session;
-    },
-  },
-
-  pages: {
-    signIn: "/",
-    signOut: "/",
-  },
 
   providers: [
     NaverProvider({
@@ -92,8 +40,7 @@ export default NextAuth({
           placeholder: "비밀번호를 입력해주세요.",
         },
       },
-
-      async authorize(credentials) {
+      authorize: async credentials => {
         if (!credentials)
           throw new Error("잘못된 입력값으로 인한 오류가 발생했습니다.");
 
@@ -104,24 +51,23 @@ export default NextAuth({
 
         if (!user) throw new Error("존재하지 않는 아이디입니다.");
 
-        bcrypt.hash(credentials.password, 10, function (err, hash) {
-          if (err) {
-            throw err;
-          } else {
-            bcrypt.compare(user?.password, hash, function (err, result) {
-              if (err) {
-                throw err;
-              }
-              if (!result) throw new Error("비밀번호가 불일치합니다.");
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        );
 
-              console.log("result:", result);
-            });
-          }
-        });
+        if (isValid) {
+          // 비밀번호가 일치하는 경우
+          console.log("로그인 성공");
+          client.close();
+        } else {
+          // 비밀번호가 일치하지 않는 경우
+          console.log("로그인 실패");
+          client.close();
+          throw new Error("credentials error");
+        }
 
         if (user) {
-          client.close();
-
           return user as any;
         } else {
           return null;
@@ -129,4 +75,108 @@ export default NextAuth({
       },
     }),
   ],
+
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+    callbackUrl: {
+      name: `${cookiePrefix}next-auth.callback-url`,
+      options: {
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+    csrfToken: {
+      name: `${cookiePrefix}next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+    pkceCodeVerifier: {
+      name: `${cookiePrefix}next-auth.pkce.code_verifier`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        maxAge: 900,
+      },
+    },
+    state: {
+      name: `${cookiePrefix}next-auth.state`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        maxAge: 900,
+      },
+    },
+    nonce: {
+      name: `${cookiePrefix}next-auth.nonce`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+  },
+
+  secret: process.env.SECRET,
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60,
+  },
+
+  jwt: {
+    maxAge: 60 * 60,
+  },
+
+  callbacks: {
+    async jwt({ token, user, account }) {
+      const client = await MongoClient.connect(uri);
+      const db = client.db();
+      if (account?.provider === "kakao" || account?.provider === "naver") {
+        const client = await MongoClient.connect(uri);
+        const user = await client.db().collection("users").findOne({
+          email: token?.email,
+        });
+        if (!user) {
+          await db.collection("users").insertOne({
+            email: token.email,
+            name: token.name,
+            role: "user",
+          });
+        }
+      }
+      if (user) {
+        token.name = user.name;
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.user.role = token.role as string;
+      const testToken = jwt.sign(token, process.env.SECRET as string);
+      session.user.token = testToken;
+      return session;
+    },
+  },
+
+  pages: {
+    signIn: "/login",
+    signOut: "/",
+  },
 });

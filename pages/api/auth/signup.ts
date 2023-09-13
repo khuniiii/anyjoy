@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
-import { hash } from "bcryptjs";
+import * as bcrypt from "bcrypt";
 
 if (!process.env.MONGODB_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_URI;
@@ -27,7 +27,7 @@ export default async function handler(
 
     const status = await db.collection("users").insertOne({
       email,
-      password: await hash(password, 12),
+      password: await bcrypt.hash(password, 12),
       role: "user",
       ...restInfo,
     });

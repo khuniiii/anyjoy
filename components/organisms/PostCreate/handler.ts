@@ -17,6 +17,7 @@ const useHandlers = (states: StatesType) => {
       views: 0,
     };
 
+    e.preventDefault();
     if (title?.length === 0 || title === undefined) {
       toast.error({
         title: "작성 실패",
@@ -31,7 +32,6 @@ const useHandlers = (states: StatesType) => {
       });
     } else {
       try {
-        e.preventDefault();
         const { data } = await createPost({
           variables: {
             input: input,
