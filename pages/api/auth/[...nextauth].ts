@@ -64,7 +64,7 @@ export default NextAuth({
           // 비밀번호가 일치하지 않는 경우
           console.log("로그인 실패");
           client.close();
-          throw new Error("credentials error");
+          throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
         if (user) {

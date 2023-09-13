@@ -25,7 +25,7 @@ const useHandlers = (states: StatesType) => {
       if (!session || (response && response.error)) {
         toast.error({
           title: "로그인 실패",
-          content: "아이디와 비밀번호를 확인해주세요",
+          content: response && response.error,
           duration: 5000,
         });
       } else {
