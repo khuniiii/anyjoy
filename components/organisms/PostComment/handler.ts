@@ -9,6 +9,7 @@ const useHandlers = (states: StatesType) => {
     router,
     setCommentList,
     setComment,
+    setCommentId,
     comment,
 
     setRecomment,
@@ -33,6 +34,7 @@ const useHandlers = (states: StatesType) => {
           },
         },
       });
+
       setCommentList(data);
     } catch (error) {
       console.error(error);
@@ -146,6 +148,7 @@ const useHandlers = (states: StatesType) => {
     updatedExpandedComments[index] = !updatedExpandedComments[index];
     setExpandedComments(updatedExpandedComments);
 
+    setCommentId(commentId);
     getRecommentListData(commentId); // 댓글의 id를 넣어서 대댓글 리스트를 조회
   };
 

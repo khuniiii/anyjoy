@@ -9,6 +9,14 @@ const nextConfig = {
   images: {
     domains: ["any-asset-khuniiii.s3.ap-northeast-2.amazonaws.com"],
     formats: ["image/avif", "image/webp"],
+    retmotePatterns: [
+      {
+        protocol: "https",
+        hostname: "any-asset-khuniiii.s3.ap-northeast-2.amazonaws.com",
+        port: "",
+        pathname: "/next-s3-uploads/**",
+      },
+    ],
   },
   webpack(config, options) {
     config.experiments.topLevelAwait = true;
