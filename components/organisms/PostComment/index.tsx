@@ -35,6 +35,7 @@ const CommentList = ({ id }: { id: string }) => {
     recomment,
     recommentList,
     setRecomment,
+    setRecommentList,
     token,
     textareaRef,
 
@@ -61,7 +62,7 @@ const CommentList = ({ id }: { id: string }) => {
 
   useEffect(() => {
     getRecommentListData(String(commentId));
-  }, [commentId, recommentList]);
+  }, []);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -70,6 +71,11 @@ const CommentList = ({ id }: { id: string }) => {
         textareaRef.current.scrollHeight + "px";
     }
   }, [comment]);
+
+  useEffect(() => {
+    if (!recommentList?.getCommentList.length === 0)
+      setRecommentList(undefined);
+  }, [toggleComment]);
 
   return (
     <>
@@ -118,9 +124,9 @@ const CommentList = ({ id }: { id: string }) => {
                     {expandedComments[index] && ( // 클릭하여 해당 댓글에 대한 대댓글 영역을 펼침
                       <>
                         <>
-                          {recommentList && ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
+                          {recommentList ? ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
                             <RecommentListContainer recomment={true}>
-                              {recommentList?.getCommentList.map(
+                              {recommentList?.getCommentList?.map(
                                 (item, index) => {
                                   return (
                                     <>
@@ -149,6 +155,8 @@ const CommentList = ({ id }: { id: string }) => {
                                 },
                               )}
                             </RecommentListContainer>
+                          ) : (
+                            <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
                           )}
                         </>
                         <CommentInputWrap recomment={true}>
