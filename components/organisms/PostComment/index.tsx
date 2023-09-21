@@ -72,11 +72,6 @@ const CommentList = ({ id }: { id: string }) => {
     }
   }, [comment]);
 
-  useEffect(() => {
-    if (!recommentList?.getCommentList.length === 0)
-      setRecommentList(undefined);
-  }, [toggleComment]);
-
   return (
     <>
       <div style={{ padding: "10px" }}>
