@@ -7,6 +7,8 @@ import useHandlers from "./handler";
 import useHeaderStates from "@/components/organisms/Header/state";
 
 import { ContentContainer, Content, Title } from "./style";
+import { addApolloState, initializeApollo } from "@/graphql/apollo";
+import { GetAnimeListDocument } from "@/graphql/queries/getAnimeList.graphql";
 
 const MainList = () => {
   const states = useStates();
@@ -51,5 +53,20 @@ const MainList = () => {
     </>
   );
 };
+
+export async function getStaticProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: GetAnimeListDocument,
+    variables: {
+      is_show: true,
+    },
+  });
+
+  return addApolloState(apolloClient, {
+    props: {},
+  });
+}
 
 export default MainList;

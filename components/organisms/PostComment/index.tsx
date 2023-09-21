@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 import useStates from "@/components/organisms/PostComment/state";
 import useHandlers from "@/components/organisms/PostComment/handler";
@@ -91,88 +91,93 @@ const CommentList = ({ id }: { id: string }) => {
           </CommentBtn>
         </CommentBtnWrap>
       </div>
+
       {currentCommentList ? ( // router.query._id로 게시글에 대한 댓글들을 불러옴
-        <CommentInputWrap>
-          <PostListContainer>
-            <CommentTitle>댓글</CommentTitle>
-            <Divider post={true} />
-            {currentCommentList.map((item, index) => {
-              return (
-                <>
-                  <PostWrapper
-                    key={`${item._id}-${index}`}
-                    // onClick={() => movePostId(item._id)}
-                    onClick={() => toggleComment(index, item._id)}
-                  >
-                    <Title size="item">{item.comment}</Title>
-                    <PostInfo>
-                      <p>
-                        작성 일시:{" "}
-                        {item.createdAt ? formattedDate(item.createdAt) : ""}
-                      </p>
-                    </PostInfo>
-                  </PostWrapper>
+        <Suspense fallback={<p>Loading feed...</p>}>
+          <CommentInputWrap>
+            <PostListContainer>
+              <CommentTitle>댓글</CommentTitle>
+              <Divider post={true} />
+              {currentCommentList.map((item, index) => {
+                return (
+                  <>
+                    <PostWrapper
+                      key={`${item._id}-${index}`}
+                      // onClick={() => movePostId(item._id)}
+                      onClick={() => toggleComment(index, item._id)}
+                    >
+                      <Title size="item">{item.comment}</Title>
+                      <PostInfo>
+                        <p>
+                          작성 일시:{" "}
+                          {item.createdAt ? formattedDate(item.createdAt) : ""}
+                        </p>
+                      </PostInfo>
+                    </PostWrapper>
 
-                  {expandedComments[index] && ( // 클릭하여 해당 댓글에 대한 대댓글 영역을 펼침
-                    <>
+                    {expandedComments[index] && ( // 클릭하여 해당 댓글에 대한 대댓글 영역을 펼침
                       <>
-                        {recommentList && ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
-                          <RecommentListContainer recomment={true}>
-                            {recommentList?.getCommentList.map(
-                              (item, index) => {
-                                return (
-                                  <>
-                                    <PostWrapper
-                                      isRecomment={true}
-                                      key={`${item._id}-${index}`}
-                                      // onClick={() => movePostId(item._id)}
-                                      onClick={() =>
-                                        toggleComment(index, item._id)
-                                      }
-                                    >
-                                      <Title size="item">{item.comment}</Title>
-                                      <PostInfo>
-                                        <p>
-                                          작성 일시:{" "}
-                                          {item.createdAt
-                                            ? formattedDate(item.createdAt)
-                                            : ""}
-                                        </p>
-                                      </PostInfo>
-                                    </PostWrapper>
-                                  </>
-                                );
-                              },
-                            )}
-                          </RecommentListContainer>
-                        )}
-                      </>
-                      <CommentInputWrap recomment={true}>
-                        <CommentInput
-                          ref={textareaRef}
-                          rows={1}
-                          placeholder="대댓글"
-                          value={recomment}
-                          onChange={e => setRecomment(e.target.value)}
-                        />
-                      </CommentInputWrap>
+                        <>
+                          {recommentList && ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
+                            <RecommentListContainer recomment={true}>
+                              {recommentList?.getCommentList.map(
+                                (item, index) => {
+                                  return (
+                                    <>
+                                      <PostWrapper
+                                        isRecomment={true}
+                                        key={`${item._id}-${index}`}
+                                        // onClick={() => movePostId(item._id)}
+                                        onClick={() =>
+                                          toggleComment(index, item._id)
+                                        }
+                                      >
+                                        <Title size="item">
+                                          {item.comment}
+                                        </Title>
+                                        <PostInfo>
+                                          <p>
+                                            작성 일시:{" "}
+                                            {item.createdAt
+                                              ? formattedDate(item.createdAt)
+                                              : ""}
+                                          </p>
+                                        </PostInfo>
+                                      </PostWrapper>
+                                    </>
+                                  );
+                                },
+                              )}
+                            </RecommentListContainer>
+                          )}
+                        </>
+                        <CommentInputWrap recomment={true}>
+                          <CommentInput
+                            ref={textareaRef}
+                            rows={1}
+                            placeholder="대댓글"
+                            value={recomment}
+                            onChange={e => setRecomment(e.target.value)}
+                          />
+                        </CommentInputWrap>
 
-                      <CommentBtnWrap recomment={true}>
-                        <CommentBtn
-                          onClick={e =>
-                            createRecommentData(String(item._id), e)
-                          }
-                        >
-                          대댓글 작성하기
-                        </CommentBtn>
-                      </CommentBtnWrap>
-                    </>
-                  )}
-                </>
-              );
-            })}
-          </PostListContainer>
-        </CommentInputWrap>
+                        <CommentBtnWrap recomment={true}>
+                          <CommentBtn
+                            onClick={e =>
+                              createRecommentData(String(item._id), e)
+                            }
+                          >
+                            대댓글 작성하기
+                          </CommentBtn>
+                        </CommentBtnWrap>
+                      </>
+                    )}
+                  </>
+                );
+              })}
+            </PostListContainer>
+          </CommentInputWrap>
+        </Suspense>
       ) : (
         <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
       )}
