@@ -13,6 +13,7 @@ const useStates = () => {
   const [createComment] = useCreateCommentMutation();
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<GetCommentListQuery>();
+  const [commentId, setCommentId] = useState<string>();
 
   const [expandedComments, setExpandedComments] = useState(
     new Array(commentList?.getCommentList.length).fill(false),
@@ -30,7 +31,7 @@ const useStates = () => {
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const PAGE_LIMIT = 5; // 페이지당 최대 개수
+  const PAGE_LIMIT = 10; // 페이지당 최대 개수
 
   const startIndex = (currentPage - 1) * PAGE_LIMIT;
   const endIndex = startIndex + PAGE_LIMIT;
@@ -48,6 +49,7 @@ const useStates = () => {
     getCommentList,
     comment,
     commentList,
+    commentId,
 
     expandedComments,
 
@@ -68,6 +70,7 @@ const useStates = () => {
 
     setComment,
     setCommentList,
+    setCommentId,
 
     setExpandedComments,
 

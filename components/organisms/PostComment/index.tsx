@@ -30,6 +30,7 @@ const CommentList = ({ id }: { id: string }) => {
     setComment,
     comment,
     commentList,
+    commentId,
     expandedComments,
     recomment,
     recommentList,
@@ -44,6 +45,7 @@ const CommentList = ({ id }: { id: string }) => {
 
   const {
     getCommentListData,
+    getRecommentListData,
     createCommentData,
     createRecommentData,
     toggleComment,
@@ -55,7 +57,11 @@ const CommentList = ({ id }: { id: string }) => {
 
   useEffect(() => {
     getCommentListData(id);
-  }, [commentList?.getCommentList.length]);
+  }, [commentList]);
+
+  useEffect(() => {
+    getRecommentListData(String(commentId));
+  }, [commentId, recommentList]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -85,7 +91,6 @@ const CommentList = ({ id }: { id: string }) => {
           </CommentBtn>
         </CommentBtnWrap>
       </div>
-
       {currentCommentList ? ( // router.query._id로 게시글에 대한 댓글들을 불러옴
         <CommentInputWrap>
           <PostListContainer>
@@ -110,26 +115,6 @@ const CommentList = ({ id }: { id: string }) => {
 
                   {expandedComments[index] && ( // 클릭하여 해당 댓글에 대한 대댓글 영역을 펼침
                     <>
-                      <CommentInputWrap recomment={true}>
-                        <CommentInput
-                          ref={textareaRef}
-                          rows={1}
-                          placeholder="대댓글"
-                          value={recomment}
-                          onChange={e => setRecomment(e.target.value)}
-                        />
-                      </CommentInputWrap>
-
-                      <CommentBtnWrap recomment={true}>
-                        <CommentBtn
-                          onClick={e =>
-                            createRecommentData(String(item._id), e)
-                          }
-                        >
-                          대댓글 작성하기
-                        </CommentBtn>
-                      </CommentBtnWrap>
-
                       <>
                         {recommentList && ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
                           <RecommentListContainer recomment={true}>
@@ -138,6 +123,7 @@ const CommentList = ({ id }: { id: string }) => {
                                 return (
                                   <>
                                     <PostWrapper
+                                      isRecomment={true}
                                       key={`${item._id}-${index}`}
                                       // onClick={() => movePostId(item._id)}
                                       onClick={() =>
@@ -161,6 +147,25 @@ const CommentList = ({ id }: { id: string }) => {
                           </RecommentListContainer>
                         )}
                       </>
+                      <CommentInputWrap recomment={true}>
+                        <CommentInput
+                          ref={textareaRef}
+                          rows={1}
+                          placeholder="대댓글"
+                          value={recomment}
+                          onChange={e => setRecomment(e.target.value)}
+                        />
+                      </CommentInputWrap>
+
+                      <CommentBtnWrap recomment={true}>
+                        <CommentBtn
+                          onClick={e =>
+                            createRecommentData(String(item._id), e)
+                          }
+                        >
+                          대댓글 작성하기
+                        </CommentBtn>
+                      </CommentBtnWrap>
                     </>
                   )}
                 </>

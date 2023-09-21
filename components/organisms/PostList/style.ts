@@ -26,6 +26,14 @@ export const PostWrapper = styled("li", {
   "&:last-child": {
     marginBottom: "0",
   },
+
+  variants: {
+    isRecomment: {
+      true: {
+        backgroundColor: "#BEBEBE",
+      },
+    },
+  },
 });
 
 export const Title = styled("p", {
