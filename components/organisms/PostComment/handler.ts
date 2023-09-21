@@ -1,6 +1,9 @@
 import { useToast } from "@/components/common/hook/useToast";
 import { StatesType } from "./type";
-import { GetCommentListDocument } from "@/graphql/queries/getCommentList.graphql";
+import {
+  GetCommentListDocument,
+  GetCommentListQuery,
+} from "@/graphql/queries/getCommentList.graphql";
 
 const useHandlers = (states: StatesType) => {
   const {
@@ -15,6 +18,7 @@ const useHandlers = (states: StatesType) => {
     setRecomment,
     setRecommentList,
     recomment,
+    recommentList,
 
     setExpandedComments,
     expandedComments,
@@ -35,7 +39,18 @@ const useHandlers = (states: StatesType) => {
         },
       });
 
-      setCommentList(data);
+      setCommentList(prevState => {
+        if (data === undefined) {
+          return prevState;
+        }
+        if (!prevState) {
+          return data;
+        }
+        return {
+          ...prevState,
+          getCommentList: data.getCommentList,
+        };
+      });
     } catch (error) {
       console.error(error);
     }
@@ -43,14 +58,30 @@ const useHandlers = (states: StatesType) => {
 
   const getRecommentListData = async (commentId: string) => {
     try {
-      const { data } = await getCommentList({
+      const { data, error } = await getCommentList({
         variables: {
           input: {
             commentId,
           },
         },
       });
+
+      console.log(data, error, recommentList);
+
       setRecommentList(data);
+
+      // setRecommentList(prevState => {
+      //   if (data === undefined) {
+      //     return prevState;
+      //   }
+      //   if (!prevState) {
+      //     return data;
+      //   }
+      //   return {
+      //     ...prevState,
+      //     getCommentList: data.getCommentList,
+      //   };
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -135,21 +166,24 @@ const useHandlers = (states: StatesType) => {
           duration: 5000,
         });
         setRecomment("");
-        commentId && getRecommentListData(commentId);
+        getRecommentListData(commentId);
       } catch (error) {
         console.error(error);
       }
     }
   };
 
-  const toggleComment = (index: number, commentId: string) => {
+  const toggleComment = async (index: number, commentId: string) => {
+    console.log(index, commentId);
     setRecommentList(undefined); // 전에 클릭한 대댓글 리스트를 지우고 새로 불러오도록 init
     const updatedExpandedComments = [...expandedComments];
     updatedExpandedComments[index] = !updatedExpandedComments[index];
     setExpandedComments(updatedExpandedComments);
+    console.log(111, recommentList);
 
     setCommentId(commentId);
-    getRecommentListData(commentId); // 댓글의 id를 넣어서 대댓글 리스트를 조회
+    console.log(222, recommentList);
+    await getRecommentListData(commentId); // 댓글의 id를 넣어서 대댓글 리스트를 조회
   };
 
   const goToPreviousPage = () => {
