@@ -4,7 +4,7 @@ import {
   GetAnimeListQuery,
 } from "@/graphql/queries/getAnimeList.graphql";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const useStates = () => {
   const [getAnimeList] = useGetAnimeListLazyQuery();

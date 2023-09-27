@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import Image from "next/image";
 
@@ -30,7 +32,7 @@ const MainList = () => {
           return (
             <>
               <Content
-                key={`${item.title}-${index}`}
+                key={`${item.id}-${index}`}
                 onClick={() => {
                   router.push(`/list/${item.title}`);
                 }}
@@ -53,20 +55,5 @@ const MainList = () => {
     </>
   );
 };
-
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: GetAnimeListDocument,
-    variables: {
-      is_show: true,
-    },
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-  });
-}
 
 export default MainList;

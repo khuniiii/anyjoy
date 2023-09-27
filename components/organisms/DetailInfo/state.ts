@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter, useParams } from "next/navigation";
 import {
   useGetAnimeByTitleLazyQuery,
   GetAnimeByTitleQuery,
@@ -9,8 +9,14 @@ const useStates = () => {
   const [getAnimeByTitle] = useGetAnimeByTitleLazyQuery();
   const [aniInfo, setAniInfo] = useState<GetAnimeByTitleQuery>();
   const router = useRouter();
+  const params = useParams();
 
-  const getter = { getAnimeByTitle, aniInfo, router };
+  const getter = {
+    getAnimeByTitle,
+    aniInfo,
+    router,
+    params,
+  };
   const setter = { setAniInfo };
 
   return { ...getter, ...setter };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import {
   useGetOnePostByIdLazyQuery,
   GetOnePostByIdQuery,
@@ -15,8 +15,9 @@ const useStates = () => {
   const [viewedPosts, setViewedPosts] = useState<string[]>([]);
 
   const router = useRouter();
+  const params = useParams();
 
-  const getter = { getOnePostById, router, postData, viewedPosts };
+  const getter = { getOnePostById, router, postData, viewedPosts, params };
   const setter = { incrementView, setPostData, setViewedPosts, deletePostById };
 
   return { ...getter, ...setter };

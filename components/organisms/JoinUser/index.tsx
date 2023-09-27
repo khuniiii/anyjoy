@@ -1,3 +1,5 @@
+"use client";
+
 import { signIn, useSession, signOut } from "next-auth/react";
 import {
   Container,
