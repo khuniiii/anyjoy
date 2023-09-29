@@ -14,7 +14,7 @@ import useStates from "./state";
 import useHandlers from "./handler";
 
 const JoinUser = () => {
-  const { data, status } = useSession();
+  const { data: session, status } = useSession();
   const states = useStates();
   const {} = states;
   const {
@@ -25,12 +25,12 @@ const JoinUser = () => {
     handlePhoneNumberChange,
     handleBirthChange,
   } = useHandlers(states);
-  console.log(data, status);
+  console.log(session, status);
   return (
     <>
-      {data ? (
+      {session ? (
         <>
-          {data.user?.name}님 반갑습니다
+          {session.user?.name}님 반갑습니다
           <button onClick={() => signOut()}>로그아웃</button>
         </>
       ) : (
