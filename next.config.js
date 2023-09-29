@@ -18,6 +18,9 @@ const nextConfig = {
       },
     ],
   },
+  compiler: {
+    styledComponents: true,
+  },
   webpack(config, options) {
     config.experiments.topLevelAwait = true;
 
@@ -29,7 +32,7 @@ const nextConfig = {
 
     return config;
   },
-  // pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
+  https: process.env.VERCEL_ENV === "development" ? false : true,
 };
 
 module.exports = nextConfig;

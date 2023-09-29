@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 
 import useStates from "@/components/organisms/PostComment/state";
 import useHandlers from "@/components/organisms/PostComment/handler";

@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 import {
   Container,
   SocialBtn,
@@ -12,14 +12,14 @@ import {
 
 import useStates from "./state";
 import useHandlers from "./handler";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const LoginUser = () => {
   const states = useStates();
   const { setLoginEmail, setLoginPassword, router } = states;
   const { login } = useHandlers(states);
   const { data: session, status } = useSession();
-  console.log("data:", session?.session, "status: ", status);
+  console.log("data:", session, "status: ", status);
 
   useEffect(() => {
     if (status === "authenticated") {
