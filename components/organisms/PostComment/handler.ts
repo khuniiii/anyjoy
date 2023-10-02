@@ -32,6 +32,8 @@ const useHandlers = (states: StatesType) => {
     setIsCommentUpdate,
 
     setIsRecommentUpdate,
+
+    deleteCommentById,
   } = states;
   const toast = useToast();
 
@@ -179,6 +181,16 @@ const useHandlers = (states: StatesType) => {
     }
   };
 
+  const deleteComment = async (_id: string) => {
+    await deleteCommentById({
+      variables: {
+        input: {
+          _id,
+        },
+      },
+    });
+  };
+
   return {
     getCommentListData,
     getRecommentListData,
@@ -188,6 +200,7 @@ const useHandlers = (states: StatesType) => {
     goToPreviousPage,
     goToNextPage,
     goToPage,
+    deleteComment,
   };
 };
 

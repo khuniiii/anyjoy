@@ -20,7 +20,8 @@ import {
   Title,
 } from "../PostList/style";
 import { formattedDate } from "@/utils/date/format";
-import { Divider } from "../PostDetail/style";
+import { DelBtn, Divider } from "../PostDetail/style";
+import { useSession } from "next-auth/react";
 
 const CommentList = ({ id }: { id: string }) => {
   const states = useStates();
@@ -62,7 +63,12 @@ const CommentList = ({ id }: { id: string }) => {
     goToPreviousPage,
     goToNextPage,
     goToPage,
+
+    deleteComment,
   } = useHandlers(states);
+
+  const { data: session } = useSession();
+  const admin = session?.user.role === "admin";
 
   useEffect(() => {
     getCommentListData(id);
@@ -118,6 +124,11 @@ const CommentList = ({ id }: { id: string }) => {
                         작성 일시:{" "}
                         {item.createdAt ? formattedDate(item.createdAt) : ""}
                       </p>
+                      {admin && (
+                        <DelBtn onClick={() => deleteComment(item._id)}>
+                          삭제
+                        </DelBtn>
+                      )}
                     </PostInfo>
                   </PostWrapper>
 
@@ -131,14 +142,15 @@ const CommentList = ({ id }: { id: string }) => {
                                 return (
                                   <>
                                     <PostWrapper
-                                      isRecomment={true}
                                       key={`${item._id}-${index}`}
                                       // onClick={() => movePostId(item._id)}
                                       onClick={() =>
                                         toggleComment(index, item._id)
                                       }
                                     >
-                                      <Title size="item">{item.comment}</Title>
+                                      <Title size="item">
+                                        ┗ {item.comment}
+                                      </Title>
                                       <PostInfo>
                                         <p>
                                           작성 일시:{" "}
@@ -146,6 +158,16 @@ const CommentList = ({ id }: { id: string }) => {
                                             ? formattedDate(item.createdAt)
                                             : ""}
                                         </p>
+
+                                        {admin && (
+                                          <DelBtn
+                                            onClick={() =>
+                                              deleteComment(item._id)
+                                            }
+                                          >
+                                            삭제
+                                          </DelBtn>
+                                        )}
                                       </PostInfo>
                                     </PostWrapper>
                                   </>

@@ -63,7 +63,8 @@ const Header = () => {
 
         <AccountList>
           <MobLogin>
-            <div onClick={openSideMenu}>
+            <AccountText>{session?.user.name}</AccountText>
+            <div style={{ alignItems: "center" }} onClick={openSideMenu}>
               {openSide ? <Close /> : <Hamburger />}
             </div>
           </MobLogin>
@@ -71,6 +72,7 @@ const Header = () => {
           <PcLogin>
             {status === "authenticated" ? (
               <>
+                <AccountText>{session?.user.name}</AccountText>
                 <AccountText onClick={logout}>로그아웃</AccountText>
               </>
             ) : (

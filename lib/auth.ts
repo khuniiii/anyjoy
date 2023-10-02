@@ -3,7 +3,7 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
 import * as bcrypt from "bcrypt";
@@ -75,64 +75,6 @@ export const authOptions: AuthOptions = {
     }),
   ],
 
-  //   cookies: {
-  //     sessionToken: {
-  //       name: `${cookiePrefix}next-auth.session-token`,
-  //       options: {
-  //         httpOnly: true,
-  //         sameSite: "lax",
-  //         path: "/",
-  //         secure: useSecureCookies,
-  //       },
-  //     },
-  //     callbackUrl: {
-  //       name: `${cookiePrefix}next-auth.callback-url`,
-  //       options: {
-  //         sameSite: "lax",
-  //         path: "/",
-  //         secure: useSecureCookies,
-  //       },
-  //     },
-  //     csrfToken: {
-  //       name: `${cookiePrefix}next-auth.csrf-token`,
-  //       options: {
-  //         httpOnly: true,
-  //         sameSite: "lax",
-  //         path: "/",
-  //         secure: useSecureCookies,
-  //       },
-  //     },
-  //     pkceCodeVerifier: {
-  //       name: `${cookiePrefix}next-auth.pkce.code_verifier`,
-  //       options: {
-  //         httpOnly: true,
-  //         sameSite: "lax",
-  //         path: "/",
-  //         secure: useSecureCookies,
-  //         maxAge: 900,
-  //       },
-  //     },
-  //     state: {
-  //       name: `${cookiePrefix}next-auth.state`,
-  //       options: {
-  //         httpOnly: true,
-  //         sameSite: "lax",
-  //         path: "/",
-  //         secure: useSecureCookies,
-  //         maxAge: 900,
-  //       },
-  //     },
-  //     nonce: {
-  //       name: `${cookiePrefix}next-auth.nonce`,
-  //       options: {
-  //         httpOnly: true,
-  //         sameSite: "lax",
-  //         path: "/",
-  //         secure: useSecureCookies,
-  //       },
-  //     },
-  //   },
-
   secret: process.env.SECRET,
   session: {
     strategy: "jwt",
@@ -143,23 +85,48 @@ export const authOptions: AuthOptions = {
     maxAge: 60 * 60,
   },
 
+  events: {
+    async linkAccount({ user, profile }) {
+      if (!user.image && profile.image) {
+        const client = await MongoClient.connect(uri);
+
+        try {
+          await client.connect();
+          const db = client.db();
+          const usersCollection = db.collection("users");
+
+          // MongoDB에서 사용자 정보를 업데이트
+          await usersCollection.updateOne(
+            { _id: new ObjectId(user.id) },
+            { $set: { image: profile.image } },
+          );
+
+          console.log("사용자 이미지 정보 업데이트 완료");
+        } finally {
+          client.close();
+        }
+      }
+    },
+    // 다른 이벤트 핸들러 추가 가능
+  },
+
   callbacks: {
     async jwt({ token, user, account }) {
       const client = await MongoClient.connect(uri);
-      const db = client.db();
-      if (account?.provider === "kakao" || account?.provider === "naver") {
-        const client = await MongoClient.connect(uri);
-        const user = await client.db().collection("users").findOne({
-          email: token?.email,
-        });
-        if (!user) {
-          await db.collection("users").insertOne({
-            email: token.email,
-            name: token.name,
-            role: "user",
-          });
-        }
-      }
+      // const db = client.db();
+      // if (account?.provider === "kakao" || account?.provider === "naver") {
+      //   const client = await MongoClient.connect(uri);
+      //   const user = await client.db().collection("users").findOne({
+      //     email: token?.email,
+      //   });
+      //   if (!user) {
+      //     await db.collection("users").insertOne({
+      //       email: token.email,
+      //       name: token.name,
+      //       role: "user",
+      //     });
+      //   }
+      // }
       if (user) {
         token.name = user.name;
         token.role = user.role;
@@ -172,6 +139,32 @@ export const authOptions: AuthOptions = {
       session.user.token = testToken;
       return session;
     },
+    // async linkAccount({ linkToken, account }) {
+    //   if (account?.provider === "naver" || account?.provider === "kakao") {
+    //     const client = await MongoClient.connect(uri);
+    //     const db = client.db();
+
+    //     // 사용자의 소셜 로그인 정보와 연결하고자 하는 로직을 구현
+    //     // 예를 들어, 사용자의 이메일과 소셜 로그인 정보를 비교하여 연결
+
+    //     // 예제: 이메일이 일치하는 사용자를 찾아 계정을 연결
+    //     const user = await db.collection("users").findOne({
+    //       email: account.email,
+    //     });
+
+    //     if (user) {
+    //       // 사용자를 찾았을 때 연결 처리
+    //       console.log("계정 연결 성공");
+    //       await client.close();
+    //       return user;
+    //     } else {
+    //       // 사용자를 찾지 못했을 때 연결 실패 처리
+    //       console.log("계정 연결 실패");
+    //       await client.close();
+    //       return null;
+    //     }
+    //   }
+    // },
   },
 
   pages: {

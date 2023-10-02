@@ -23,6 +23,7 @@ const useHandlers = (states: StatesType) => {
     setValidPassword,
     setValidPhoneNumber,
     setValidBirth,
+    setIsValid,
 
     router,
   } = states;
@@ -31,11 +32,6 @@ const useHandlers = (states: StatesType) => {
 
   const register = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!validateCheck()) {
-      // 유효성 검사에 실패하면 회원가입을 진행하지 않음
-      return;
-    }
 
     try {
       const res = await fetch("/api/auth/signup", {
@@ -87,7 +83,7 @@ const useHandlers = (states: StatesType) => {
   const handlePasswordChange = (password: string) => {
     setJoinPassword(password);
     const regex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*+-])[A-Za-z\d!@#$%^&*+-]{8,16}$/;
 
     const isValidPassword = regex.test(password); // 현재 입력값을 기반으로 검사
     setValidPassword(isValidPassword);
@@ -110,43 +106,21 @@ const useHandlers = (states: StatesType) => {
   console.log(validEmail);
 
   const validateCheck = () => {
-    switch (true) {
-      case validEmail === false:
-        toast.error({
-          title: "가입 실패",
-          content: "이메일이 형식에 맞지 않습니다.",
-          duration: 5000,
-        });
-        break;
-      case validName === false:
-        toast.error({
-          title: "가입 실패",
-          content: "이름이 형식에 맞지 않습니다.",
-          duration: 5000,
-        });
-        break;
-      case validPassword === false:
-        toast.error({
-          title: "가입 실패",
-          content: "비밀번호가 형식에 맞지 않습니다.",
-          duration: 5000,
-        });
-        break;
-      case validPhoneNumber === false:
-        toast.error({
-          title: "가입 실패",
-          content: "전화번호가 형식에 맞지 않습니다.",
-          duration: 5000,
-        });
-        break;
-      case validBirth === false:
-        return toast.error({
-          title: "가입 실패",
-          content: "출생년도가 형식에 맞지 않습니다.",
-          duration: 5000,
-        });
-      default:
-        return true;
+    if (
+      validEmail &&
+      validName &&
+      validPassword &&
+      validPhoneNumber &&
+      validBirth &&
+      joinEmail.length > 0 &&
+      joinName.length > 0 &&
+      joinPassword.length > 0 &&
+      joinPhoneNumber.length > 0 &&
+      joinBirth.length > 0
+    ) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
     }
   };
 
@@ -157,6 +131,7 @@ const useHandlers = (states: StatesType) => {
     handlePhoneNumberChange,
     handleBirthChange,
     register,
+    validateCheck,
   };
 };
 
