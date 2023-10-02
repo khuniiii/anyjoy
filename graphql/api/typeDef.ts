@@ -5,6 +5,7 @@ import createAnimeInfo from "./mutations/createAnimeInfo/typeDef.graphql";
 import createPost from "./mutations/createPost/typeDef.graphql";
 import createComment from "./mutations/createComment/typeDef.graphql";
 import deletePost from "./mutations/deletePost/typeDef.graphql";
+import deleteComment from "./mutations/deleteComment/typeDef.graphql";
 import incrementView from "./mutations/incrementView/typeDef.graphql";
 
 import getAnimeList from "./queries/animeList/typeDef.graphql";
@@ -19,6 +20,7 @@ const mutationTypeDefs = [
   createComment,
   incrementView,
   deletePost,
+  deleteComment,
 ];
 
 const queryTypeDefs = [

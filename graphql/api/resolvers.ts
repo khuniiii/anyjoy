@@ -4,6 +4,7 @@ import { createAnimeInfo } from "./mutations/createAnimeInfo";
 import { createPost } from "./mutations/createPost";
 import { createComment } from "./mutations/createComment";
 import { deletePost } from "./mutations/deletePost";
+import { deleteComment } from "./mutations/deleteComment";
 import { incrementView } from "./mutations/incrementView";
 
 import { getAnimeList } from "./queries/animeList";
@@ -19,6 +20,7 @@ const resolvers = {
     createPost,
     createComment,
     deletePost,
+    deleteComment,
     incrementView,
   },
   Query: {

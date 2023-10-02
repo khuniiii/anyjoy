@@ -5,7 +5,8 @@ import { ApolloProvider } from "@apollo/client";
 
 import { initializeApollo } from "@/graphql/apollo";
 import { OverlayProvider } from "@/components/common/hook/useOverlay";
-import { NextAuthProvider } from "./provider";
+import AuthContext from "./provider";
+import { ServerStylesheet } from "@/lib/registry";
 
 interface Props {
   children: React.ReactNode;
@@ -17,9 +18,11 @@ const RootLayout = ({ children }: Props) => {
     <html lang="en">
       <body>
         <ApolloProvider client={apolloClient}>
-          <OverlayProvider>
-            <NextAuthProvider>{children}</NextAuthProvider>
-          </OverlayProvider>
+          <ServerStylesheet>
+            <AuthContext>
+              <OverlayProvider>{children}</OverlayProvider>
+            </AuthContext>
+          </ServerStylesheet>
         </ApolloProvider>
       </body>
     </html>

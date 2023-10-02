@@ -9,11 +9,14 @@ import {
   useCreateCommentMutation,
 } from "@/graphql/mutations/createComment.graphql";
 
+import { useDeleteCommentMutation } from "@/graphql/mutations/deleteComment.graphql";
+
 import Cookies from "js-cookie";
 
 const useStates = () => {
   const [getCommentList] = useGetCommentListLazyQuery();
   const [createComment] = useCreateCommentMutation();
+  const [deleteCommentById] = useDeleteCommentMutation();
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<GetCommentListQuery>();
   const [commentId, setCommentId] = useState<string>();
@@ -82,6 +85,7 @@ const useStates = () => {
   };
   const setter = {
     createComment,
+    deleteCommentById,
 
     setComment,
     setCommentList,

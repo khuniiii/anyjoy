@@ -8,10 +8,6 @@ import useHandlers from "@/components/organisms/DetailInfo/handler";
 import { ChipWrapper, Content, ContentContainer, Title } from "./style";
 import { Chip } from "@/components/atoms/Chip";
 import PostList from "@/components/organisms/PostList/index";
-import { GetAnimeByTitleDocument } from "@/graphql/queries/getAnimeByTitle.graphql";
-import { addApolloState, initializeApollo } from "@/graphql/apollo";
-
-import { GetStaticPropsContext } from "next";
 
 const DetailInfo = () => {
   const states = useStates();
@@ -76,22 +72,5 @@ const DetailInfo = () => {
     </>
   );
 };
-
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const apolloClient = initializeApollo();
-  const title = context.params?.title;
-
-  await apolloClient.query({
-    query: GetAnimeByTitleDocument,
-    variables: {
-      is_show: true,
-      title: title,
-    },
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-  });
-}
 
 export default DetailInfo;
