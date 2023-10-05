@@ -13,17 +13,19 @@ const DetailInfo = () => {
   const states = useStates();
 
   const { aniInfo, params } = states;
-  const { getAnimeByTitleData } = useHandlers(states);
+  const { getAnimeByIdData } = useHandlers(states);
+
+  console.log(params);
 
   useEffect(() => {
-    if (params?.title !== undefined) {
-      getAnimeByTitleData(decodeURI(params.title.toString()));
+    if (params?._id !== undefined) {
+      getAnimeByIdData(decodeURI(params._id.toString()));
     }
   }, []);
 
   return (
     <>
-      {aniInfo?.getAnimeByTitle.map((item, index) => {
+      {aniInfo?.getAnimeById.map((item, index) => {
         if (!item.image || !item.genre) return;
         return (
           <>
@@ -64,7 +66,7 @@ const DetailInfo = () => {
             </ContentContainer>
 
             <div style={{ paddingBottom: "40px" }}>
-              <PostList title={aniInfo.getAnimeByTitle[0].title as string} />
+              <PostList title={aniInfo.getAnimeById[0].title as string} />
             </div>
           </>
         );

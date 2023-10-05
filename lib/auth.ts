@@ -20,10 +20,12 @@ export const authOptions: AuthOptions = {
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID as string,
       clientSecret: process.env.NAVER_CLIENT_SECRET as string,
+      allowDangerousEmailAccountLinking: true,
     }),
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID as string,
       clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
+      allowDangerousEmailAccountLinking: true,
     }),
     CredentialsProvider({
       name: "credentials",
@@ -112,21 +114,6 @@ export const authOptions: AuthOptions = {
 
   callbacks: {
     async jwt({ token, user, account }) {
-      const client = await MongoClient.connect(uri);
-      // const db = client.db();
-      // if (account?.provider === "kakao" || account?.provider === "naver") {
-      //   const client = await MongoClient.connect(uri);
-      //   const user = await client.db().collection("users").findOne({
-      //     email: token?.email,
-      //   });
-      //   if (!user) {
-      //     await db.collection("users").insertOne({
-      //       email: token.email,
-      //       name: token.name,
-      //       role: "user",
-      //     });
-      //   }
-      // }
       if (user) {
         token.name = user.name;
         token.role = user.role;
@@ -139,30 +126,44 @@ export const authOptions: AuthOptions = {
       session.user.token = testToken;
       return session;
     },
-    // async linkAccount({ linkToken, account }) {
-    //   if (account?.provider === "naver" || account?.provider === "kakao") {
-    //     const client = await MongoClient.connect(uri);
-    //     const db = client.db();
+    // async signIn({ user, account }) {
+    //   const client = await MongoClient.connect(uri);
+    //   const db = client.db();
 
-    //     // 사용자의 소셜 로그인 정보와 연결하고자 하는 로직을 구현
-    //     // 예를 들어, 사용자의 이메일과 소셜 로그인 정보를 비교하여 연결
+    //   const linkedAccount = await db.collection("users").findOne({
+    //     email: user.email,
+    //   });
 
-    //     // 예제: 이메일이 일치하는 사용자를 찾아 계정을 연결
-    //     const user = await db.collection("users").findOne({
-    //       email: account.email,
+    //   console.log(linkedAccount, "linkedAccount");
+
+    //   if (linkedAccount && account) {
+    //     // If the OAuth account is already linked, return the corresponding user
+    //     const FindAccounts = await db.collection("accounts").find({
+    //       provider: account.provider,
+    //       providerAccountId: account.providerAccountId,
+    //       type: account.type,
     //     });
 
-    //     if (user) {
-    //       // 사용자를 찾았을 때 연결 처리
-    //       console.log("계정 연결 성공");
-    //       await client.close();
-    //       return user;
-    //     } else {
-    //       // 사용자를 찾지 못했을 때 연결 실패 처리
-    //       console.log("계정 연결 실패");
-    //       await client.close();
-    //       return null;
+    //     const Accounts = await FindAccounts.toArray();
+
+    //     if (Accounts.length) return true;
+    //     else {
+    //       console.log(1);
+
+    //       await db.collection("accounts").insertOne(account);
+
+    //       return true;
     //     }
+    //   } else {
+    //     // If the OAuth account is not linked, create a new user account and link it to the OAuth account
+    //     await db.collection("users").insertOne({
+    //       name: user.name,
+    //       email: user.email,
+    //       image: user.image,
+    //     });
+
+    //     // Return the newly created user
+    //     return true;
     //   }
     // },
   },

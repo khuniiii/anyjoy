@@ -9,7 +9,7 @@ import deleteComment from "./mutations/deleteComment/typeDef.graphql";
 import incrementView from "./mutations/incrementView/typeDef.graphql";
 
 import getAnimeList from "./queries/animeList/typeDef.graphql";
-import getAnimeByTitle from "./queries/getAnimeByTitle/typeDef.graphql";
+import getAnimeById from "./queries/getAnimeById/typeDef.graphql";
 import getCommentList from "./queries/getCommentList/typeDef.graphql";
 import getPostByType from "./queries/getPostByType/typeDef.graphql";
 import getOnePostById from "./queries/getOnePostById/typeDef.graphql";
@@ -25,7 +25,7 @@ const mutationTypeDefs = [
 
 const queryTypeDefs = [
   getAnimeList,
-  getAnimeByTitle,
+  getAnimeById,
   getCommentList,
   getPostByType,
   getOnePostById,

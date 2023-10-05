@@ -37,3 +37,43 @@ export const Title = styled("p", {
     fontSize: "16px",
   },
 });
+
+export const SearchBar = styled("form", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "right",
+  padding: "0 20px",
+});
+
+export const SearchInput = styled("input", {
+  display: "flex",
+  alignItems: "center",
+
+  width: "100%",
+  height: "25px",
+  borderRadius: "5px",
+  padding: "10px",
+  fontSize: "14px",
+  fontWeight: "500",
+  margin: "0px auto",
+  gap: "5px",
+});
+
+export const SearchBtn = styled("button", {
+  display: "flex",
+  alignItems: "center",
+
+  border: "1px solid transparent",
+  backgroundColor: "#d8f7e6",
+  color: "#038235",
+
+  width: "80px",
+  height: "25px",
+  borderRadius: "5px",
+  textAlign: "center",
+  fontSize: "14px",
+  fontWeight: "500",
+  margin: "0px auto",
+
+  justifyContent: "center",
+});

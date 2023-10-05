@@ -8,13 +8,18 @@ import useHandlers from "./handler";
 
 import useHeaderStates from "@/components/organisms/Header/state";
 
-import { ContentContainer, Content, Title } from "./style";
-// import { addApolloState, initializeApollo } from "@/graphql/apollo";
-// import { GetAnimeListDocument } from "@/graphql/queries/getAnimeList.graphql";
+import {
+  ContentContainer,
+  Content,
+  Title,
+  SearchBar,
+  SearchInput,
+  SearchBtn,
+} from "./style";
 
 const MainList = () => {
   const states = useStates();
-  const { aniInfo, setTitle, findAniInfo, router, title } = states;
+  const { aniInfo, findAniInfo, router, title } = states;
   const { getAnimeListData, getAnimeByTitleData, findAni, searchText } =
     useHandlers(states);
 
@@ -25,23 +30,32 @@ const MainList = () => {
     getAnimeListData();
   }, []);
 
+  useEffect(() => {
+    getAnimeByTitleData(title);
+  }, [title]);
+
+  console.log(1, title, 2, aniInfo, findAniInfo);
+
   return (
     <>
-      <input type="text" onChange={e => searchText(e.target.value)} />
-      <button onClick={() => getAnimeByTitleData(title)}>검색</button>
+      <SearchBar onSubmit={e => findAni(e)}>
+        <SearchInput type="text" onChange={e => searchText(e.target.value)} />
+        <SearchBtn onClick={() => getAnimeByTitleData(title)}>검색</SearchBtn>
+      </SearchBar>
 
       <ContentContainer>
-        {findAniInfo ? (
+        {findAniInfo !== undefined ? (
           <>
-            {findAniInfo.getAnimeByTitle?.map((item, index) => {
+            {findAniInfo?.getAnimeList.map((item, index) => {
               //결과 있음
+              console.log(item);
               if (!item.image) return;
               return (
                 <>
                   <Content
-                    key={`${item.id}-${index}`}
+                    key={`${item._id}-${index}`}
                     onClick={() => {
-                      router.push(`/list/${item.title}`);
+                      router.push(`/list/${item._id}`);
                     }}
                   >
                     <Image
@@ -67,9 +81,9 @@ const MainList = () => {
               return (
                 <>
                   <Content
-                    key={`${item.id}-${index}`}
+                    key={`${item._id}-${index}`}
                     onClick={() => {
-                      router.push(`/list/${item.title}`);
+                      router.push(`/list/${item._id}`);
                     }}
                   >
                     <Image
