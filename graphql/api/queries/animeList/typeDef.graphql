@@ -8,6 +8,7 @@ input AnimeListInput {
 }
 
 type AnimeList {
+  _id: ID!
   title: String
   author: String
   company: [String]
@@ -15,7 +16,6 @@ type AnimeList {
   genre: [String]
   year: Int
   is_ended: Boolean
-  id: Int
   is_show: Boolean
   image: String
 }

@@ -1,10 +1,12 @@
+import { GetAnimeListQuery } from "@/graphql/queries/getAnimeList.graphql";
 import { StatesType } from "./type";
 import { useToast } from "@/components/common/hook/useToast";
 
 const useHandlers = (states: StatesType) => {
   const {
     getAnimeList,
-    getAnimeByTitle,
+    findAniInfo,
+    aniInfo,
     setAniInfo,
     setFindAniInfo,
     setTitle,
@@ -29,35 +31,41 @@ const useHandlers = (states: StatesType) => {
 
   const getAnimeByTitleData = async (title: string) => {
     try {
-      const { data } = await getAnimeByTitle({
-        variables: {
-          input: {
-            is_show: true,
-            title: title,
-          },
-        },
+      const filteredAnimeList = aniInfo?.getAnimeList.filter(item => {
+        return item.title?.includes(title);
       });
-      setFindAniInfo(data);
 
-      if (data === undefined)
-        toast.error({
-          title: "검색 실패",
-          content: "해당하는 작품이 없습니다.",
-          duration: 5000,
-        });
+      if (filteredAnimeList) {
+        const convertedList: GetAnimeListQuery = {
+          getAnimeList: filteredAnimeList,
+        };
+
+        setFindAniInfo(convertedList);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const findAni = (title: string) => {
-    getAnimeByTitleData(title);
+  const findAni = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (findAniInfo?.getAnimeList.length === 0) {
+      toast.error({
+        title: "검색 실패",
+        content: "해당하는 작품이 없습니다.",
+        duration: 5000,
+      });
+      return;
+    }
+    return false;
   };
 
   const searchText = (title: string) => {
-    setFindAniInfo(undefined);
     setTitle(title);
+    console.log(title);
   };
+
   return { getAnimeListData, getAnimeByTitleData, findAni, searchText };
 };
 

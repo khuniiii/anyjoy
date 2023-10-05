@@ -1,5 +1,5 @@
-query getAnimeByTitle($input: GetAnimeByTitleInput!) {
-  getAnimeByTitle(input: $input) {
+query getAnimeById($input: GetAnimeByIdInput!) {
+  getAnimeById(input: $input) {
     title
     author
     company
@@ -7,7 +7,7 @@ query getAnimeByTitle($input: GetAnimeByTitleInput!) {
     genre
     year
     is_ended
-    id
+    _id
     is_show
     image
   }
