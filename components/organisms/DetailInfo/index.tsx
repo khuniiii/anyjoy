@@ -8,26 +8,24 @@ import useHandlers from "@/components/organisms/DetailInfo/handler";
 import { ChipWrapper, Content, ContentContainer, Title } from "./style";
 import { Chip } from "@/components/atoms/Chip";
 import PostList from "@/components/organisms/PostList/index";
-import { GetAnimeByTitleDocument } from "@/graphql/queries/getAnimeByTitle.graphql";
-import { addApolloState, initializeApollo } from "@/graphql/apollo";
-
-import { GetStaticPropsContext } from "next";
 
 const DetailInfo = () => {
   const states = useStates();
 
   const { aniInfo, params } = states;
-  const { getAnimeByTitleData } = useHandlers(states);
+  const { getAnimeByIdData } = useHandlers(states);
+
+  console.log(params);
 
   useEffect(() => {
-    if (params?.title !== undefined) {
-      getAnimeByTitleData(decodeURI(params.title.toString()));
+    if (params?._id !== undefined) {
+      getAnimeByIdData(decodeURI(params._id.toString()));
     }
   }, []);
 
   return (
     <>
-      {aniInfo?.getAnimeByTitle.map((item, index) => {
+      {aniInfo?.getAnimeById.map((item, index) => {
         if (!item.image || !item.genre) return;
         return (
           <>
@@ -68,7 +66,7 @@ const DetailInfo = () => {
             </ContentContainer>
 
             <div style={{ paddingBottom: "40px" }}>
-              <PostList title={aniInfo.getAnimeByTitle[0].title as string} />
+              <PostList title={aniInfo.getAnimeById[0].title as string} />
             </div>
           </>
         );
@@ -76,22 +74,5 @@ const DetailInfo = () => {
     </>
   );
 };
-
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const apolloClient = initializeApollo();
-  const title = context.params?.title;
-
-  await apolloClient.query({
-    query: GetAnimeByTitleDocument,
-    variables: {
-      is_show: true,
-      title: title,
-    },
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-  });
-}
 
 export default DetailInfo;

@@ -16,6 +16,8 @@ const useStates = () => {
   const [validPhoneNumber, setValidPhoneNumber] = useState(false);
   const [validBirth, setValidBirth] = useState(false);
 
+  const [isValid, setIsValid] = useState(false);
+
   const router = useRouter();
 
   const getter = {
@@ -29,6 +31,7 @@ const useStates = () => {
     validPassword,
     validPhoneNumber,
     validBirth,
+    isValid,
     router,
   };
   const setter = {
@@ -42,6 +45,7 @@ const useStates = () => {
     setValidPassword,
     setValidPhoneNumber,
     setValidBirth,
+    setIsValid,
   };
 
   return { ...getter, ...setter };

@@ -1,10 +1,10 @@
 type Query {
-  getAnimeByTitle(input: GetAnimeByTitleInput!): [AnimeList!]!
+  getAnimeById(input: GetAnimeByIdInput!): [AnimeList!]!
 }
 
-input GetAnimeByTitleInput {
+input GetAnimeByIdInput {
   is_show: Boolean
-  title: String
+  _id: ID
 }
 
 type AnimeList {
@@ -15,7 +15,7 @@ type AnimeList {
   genre: [String]
   year: Int
   is_ended: Boolean
-  id: Int
+  _id: ID!
   is_show: Boolean
   image: String
 }

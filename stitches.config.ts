@@ -2,7 +2,7 @@ import { createStitches } from "@stitches/react";
 
 export const { globalCss } = createStitches();
 
-export const { styled } = createStitches({
+export const { styled, getCssText } = createStitches({
   theme: {
     fonts: {
       suit: "SUIT, sans-serif",
