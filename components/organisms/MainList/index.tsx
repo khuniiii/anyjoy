@@ -17,10 +17,12 @@ import {
   SearchBtn,
 } from "./style";
 
+import Magnifer from "@/components/common/SVG/Magnifer";
+
 const MainList = () => {
   const states = useStates();
-  const { aniInfo, findAniInfo, router, title } = states;
-  const { getAnimeListData, getAnimeByTitleData, findAni, searchText } =
+  const { aniInfo, findAniInfo, router, title, setTitle } = states;
+  const { getAnimeListData, getAnimeByTitleData, findAni } =
     useHandlers(states);
 
   const headerStates = useHeaderStates();
@@ -31,17 +33,26 @@ const MainList = () => {
   }, []);
 
   useEffect(() => {
-    getAnimeByTitleData(title);
+    getAnimeByTitleData();
   }, [title]);
 
   console.log(1, title, 2, aniInfo, findAniInfo);
 
   return (
     <>
-      <SearchBar onSubmit={e => findAni(e)}>
-        <SearchInput type="text" onChange={e => searchText(e.target.value)} />
-        <SearchBtn onClick={() => getAnimeByTitleData(title)}>검색</SearchBtn>
-      </SearchBar>
+      <div style={{ margin: "10px" }}>
+        <SearchBar onSubmit={e => findAni(e)}>
+          <SearchInput
+            type="text"
+            value={title}
+            placeholder="제목 검색을 해주세요"
+            onChange={e => setTitle(e.target.value)}
+          />
+          <SearchBtn onClick={() => getAnimeByTitleData()}>
+            <Magnifer />
+          </SearchBtn>
+        </SearchBar>
+      </div>
 
       <ContentContainer>
         {findAniInfo !== undefined ? (

@@ -9,6 +9,7 @@ const useHandlers = (states: StatesType) => {
     aniInfo,
     setAniInfo,
     setFindAniInfo,
+    title,
     setTitle,
   } = states;
 
@@ -29,10 +30,22 @@ const useHandlers = (states: StatesType) => {
     }
   };
 
-  const getAnimeByTitleData = async (title: string) => {
+  const getAnimeByTitleData = async () => {
     try {
-      const filteredAnimeList = aniInfo?.getAnimeList.filter(item => {
-        return item.title?.includes(title);
+      const { data } = await getAnimeList({
+        variables: {
+          input: {
+            is_show: true,
+            title: title,
+          },
+        },
+      });
+
+      const filteredAnimeList = data?.getAnimeList.filter(item => {
+        const itemTitle = item.title?.toLowerCase();
+        const searchTitle = title?.toLowerCase();
+
+        return itemTitle?.includes(searchTitle);
       });
 
       if (filteredAnimeList) {
@@ -61,12 +74,7 @@ const useHandlers = (states: StatesType) => {
     return false;
   };
 
-  const searchText = (title: string) => {
-    setTitle(title);
-    console.log(title);
-  };
-
-  return { getAnimeListData, getAnimeByTitleData, findAni, searchText };
+  return { getAnimeListData, getAnimeByTitleData, findAni };
 };
 
 export default useHandlers;
