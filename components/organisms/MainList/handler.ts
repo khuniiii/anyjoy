@@ -10,7 +10,11 @@ const useHandlers = (states: StatesType) => {
     setAniInfo,
     setFindAniInfo,
     title,
+    genre,
     setTitle,
+    setGenre,
+    setSearchType,
+    searchType,
   } = states;
 
   const toast = useToast();
@@ -24,7 +28,10 @@ const useHandlers = (states: StatesType) => {
           },
         },
       });
+
       setAniInfo(data);
+
+      console.log("end", aniInfo);
     } catch (error) {
       console.error(error);
     }
@@ -32,21 +39,42 @@ const useHandlers = (states: StatesType) => {
 
   const getAnimeByTitleData = async () => {
     try {
-      const { data } = await getAnimeList({
-        variables: {
-          input: {
-            is_show: true,
-            title: title,
+      let filteredAnimeList;
+
+      if (searchType === "title") {
+        // 제목별 검색
+        const { data } = await getAnimeList({
+          variables: {
+            input: {
+              is_show: true,
+              title: title.length > 0 ? title : undefined,
+            },
           },
-        },
-      });
+        });
 
-      const filteredAnimeList = data?.getAnimeList.filter(item => {
-        const itemTitle = item.title?.toLowerCase();
-        const searchTitle = title?.toLowerCase();
+        filteredAnimeList = data?.getAnimeList.filter(item => {
+          const itemTitle = item.title?.toLowerCase();
+          const searchTitle = title?.toLowerCase();
 
-        return itemTitle?.includes(searchTitle);
-      });
+          return itemTitle?.includes(searchTitle);
+        });
+      } else if (searchType === "genre") {
+        // 장르별 검색
+        const { data } = await getAnimeList({
+          variables: {
+            input: {
+              is_show: true,
+            },
+          },
+        });
+
+        filteredAnimeList = data?.getAnimeList.filter(item => {
+          const itemGenre = item.genre;
+          const searchGenre = genre;
+
+          return itemGenre?.includes(searchGenre);
+        });
+      }
 
       if (filteredAnimeList) {
         const convertedList: GetAnimeListQuery = {
@@ -74,7 +102,31 @@ const useHandlers = (states: StatesType) => {
     return false;
   };
 
-  return { getAnimeListData, getAnimeByTitleData, findAni };
+  const switchToTitleSearch = () => {
+    setSearchType("title");
+  };
+  const switchToGenreSearch = () => {
+    setSearchType("genre");
+  };
+
+  const refresh = async () => {
+    setTitle("");
+    setGenre("");
+    setAniInfo(undefined);
+
+    await getAnimeListData();
+
+    console.log("title:", title, "genre:", genre, aniInfo, findAniInfo);
+  };
+
+  return {
+    getAnimeListData,
+    getAnimeByTitleData,
+    findAni,
+    switchToTitleSearch,
+    switchToGenreSearch,
+    refresh,
+  };
 };
 
 export default useHandlers;
