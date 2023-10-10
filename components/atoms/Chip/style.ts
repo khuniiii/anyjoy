@@ -19,6 +19,12 @@ export const ChipStyled = styled("div", {
       gray: { color: "#686A6C", backgroundColor: "#EFF0F1" },
       red: { color: "#FF2326", backgroundColor: "#FFEBEB" },
       green: { color: "#038235", backgroundColor: "#D8F7E6" },
+
+      isNonActive: {
+        color: "#038235",
+        backgroundColor: "#FFFFFF",
+        border: "1px solid #038235",
+      },
     },
   },
   defaultVariants: {

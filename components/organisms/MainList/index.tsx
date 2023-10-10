@@ -8,6 +8,8 @@ import useHandlers from "./handler";
 
 import useHeaderStates from "@/components/organisms/Header/state";
 
+import { Chip } from "@/components/atoms/Chip";
+
 import {
   ContentContainer,
   Content,
@@ -18,12 +20,28 @@ import {
 } from "./style";
 
 import Magnifer from "@/components/common/SVG/Magnifer";
+import Refresh from "@/components/common/SVG/Refresh";
 
 const MainList = () => {
   const states = useStates();
-  const { aniInfo, findAniInfo, router, title, setTitle } = states;
-  const { getAnimeListData, getAnimeByTitleData, findAni } =
-    useHandlers(states);
+  const {
+    aniInfo,
+    findAniInfo,
+    router,
+    title,
+    genre,
+    searchType,
+    setTitle,
+    setGenre,
+  } = states;
+  const {
+    getAnimeListData,
+    getAnimeByTitleData,
+    findAni,
+    switchToTitleSearch,
+    switchToGenreSearch,
+    refresh,
+  } = useHandlers(states);
 
   const headerStates = useHeaderStates();
   const { isMobile } = headerStates;
@@ -34,19 +52,68 @@ const MainList = () => {
 
   useEffect(() => {
     getAnimeByTitleData();
-  }, [title]);
+  }, [title, genre]);
 
-  console.log(1, title, 2, aniInfo, findAniInfo);
+  console.log(searchType);
 
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          margin: "0 15px",
+          fontSize: "12px",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* < color="green" onClick={switchToTitleSearch}>
+            제목
+          </> */}
+          <div>
+            <label>
+              <input
+                type="radio"
+                value="title"
+                checked={searchType === "title"}
+                onChange={switchToTitleSearch}
+              />
+              제목
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input
+                type="radio"
+                value="genre"
+                checked={searchType === "genre"}
+                onChange={switchToGenreSearch}
+              />
+              장르
+            </label>
+          </div>
+        </div>
+        <SearchBtn isRefresh={true} onClick={refresh}>
+          <Refresh />
+        </SearchBtn>
+      </div>
+
       <div style={{ margin: "10px" }}>
         <SearchBar onSubmit={e => findAni(e)}>
           <SearchInput
             type="text"
-            value={title}
-            placeholder="제목 검색을 해주세요"
-            onChange={e => setTitle(e.target.value)}
+            value={searchType === "title" ? title : genre}
+            placeholder={
+              searchType === "title"
+                ? "제목 검색을 해주세요"
+                : "장르 검색을 해주세요 ex) 스포츠 or 이세계"
+            }
+            onChange={e =>
+              searchType === "title"
+                ? setTitle(e.target.value)
+                : setGenre(e.target.value)
+            }
           />
           <SearchBtn onClick={() => getAnimeByTitleData()}>
             <Magnifer />
@@ -55,11 +122,10 @@ const MainList = () => {
       </div>
 
       <ContentContainer>
-        {findAniInfo !== undefined ? (
+        {findAniInfo?.getAnimeList.length !== 0 ? (
           <>
             {findAniInfo?.getAnimeList.map((item, index) => {
               //결과 있음
-              console.log(item);
               if (!item.image) return;
               return (
                 <>

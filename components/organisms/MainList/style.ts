@@ -111,4 +111,18 @@ export const SearchBtn = styled("button", {
   background: "#e5e5e5",
   color: "white",
   borderRadius: "5px",
+  cursor: "pointer",
+
+  variants: {
+    isRefresh: {
+      true: {
+        svg: {
+          transition: "transform 0.3s ease",
+          "&:hover": {
+            transform: "rotate(90deg)",
+          },
+        },
+      },
+    },
+  },
 });
