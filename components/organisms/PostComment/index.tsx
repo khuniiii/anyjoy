@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 
 import useStates from "@/components/organisms/PostComment/state";
 import useHandlers from "@/components/organisms/PostComment/handler";
@@ -20,49 +20,63 @@ import {
   Title,
 } from "../PostList/style";
 import { formattedDate } from "@/utils/date/format";
-import { Divider } from "../PostDetail/style";
+import { DelBtn, Divider } from "../PostDetail/style";
+import { useSession } from "next-auth/react";
 
 const CommentList = ({ id }: { id: string }) => {
   const states = useStates();
 
   const {
-    router,
-    setComment,
+    params,
+
     comment,
-    commentList,
+    setComment,
+
     commentId,
+
     expandedComments,
+
     recomment,
-    recommentList,
     setRecomment,
-    setRecommentList,
-    token,
+
+    recommentList,
+
     textareaRef,
 
     currentPage,
     totalPages,
+
     currentCommentList,
+    isCommentUpdate,
+    isRecommentUpdate,
   } = states;
 
   const {
     getCommentListData,
     getRecommentListData,
+
     createCommentData,
     createRecommentData,
+
     toggleComment,
 
     goToPreviousPage,
     goToNextPage,
     goToPage,
+
+    deleteComment,
   } = useHandlers(states);
+
+  const { data: session } = useSession();
+  const admin = session?.user.role === "admin";
 
   useEffect(() => {
     getCommentListData(id);
-  }, [commentList]);
+  }, [isCommentUpdate]);
 
   useEffect(() => {
     getRecommentListData(String(commentId));
-  }, []);
+  }, [isRecommentUpdate]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -85,102 +99,112 @@ const CommentList = ({ id }: { id: string }) => {
           />
         </CommentInputWrap>
         <CommentBtnWrap>
-          <CommentBtn
-            onClick={e => createCommentData(String(router.query._id), e)}
-          >
+          <CommentBtn onClick={e => createCommentData(String(params?._id), e)}>
             작성하기
           </CommentBtn>
         </CommentBtnWrap>
       </div>
 
       {currentCommentList ? ( // router.query._id로 게시글에 대한 댓글들을 불러옴
-        <Suspense fallback={<p>Loading feed...</p>}>
-          <CommentInputWrap>
-            <PostListContainer>
-              <CommentTitle>댓글</CommentTitle>
-              <Divider post={true} />
-              {currentCommentList.map((item, index) => {
-                return (
-                  <>
-                    <PostWrapper
-                      key={`${item._id}-${index}`}
-                      // onClick={() => movePostId(item._id)}
-                      onClick={() => toggleComment(index, item._id)}
-                    >
-                      <Title size="item">{item.comment}</Title>
-                      <PostInfo>
-                        <p>
-                          작성 일시:{" "}
-                          {item.createdAt ? formattedDate(item.createdAt) : ""}
-                        </p>
-                      </PostInfo>
-                    </PostWrapper>
+        <CommentInputWrap>
+          <PostListContainer>
+            <CommentTitle>댓글</CommentTitle>
+            <Divider post={true} />
+            {currentCommentList.map((item, index) => {
+              return (
+                <>
+                  <PostWrapper
+                    key={`${item._id}-${index}`}
+                    // onClick={() => movePostId(item._id)}
+                    onClick={() => toggleComment(index, item._id)}
+                  >
+                    <Title size="item">{item.comment}</Title>
+                    <PostInfo>
+                      <p>
+                        작성 일시:{" "}
+                        {item.createdAt ? formattedDate(item.createdAt) : ""}
+                      </p>
+                      {admin && (
+                        <DelBtn onClick={() => deleteComment(item._id)}>
+                          삭제
+                        </DelBtn>
+                      )}
+                    </PostInfo>
+                  </PostWrapper>
 
-                    {expandedComments[index] && ( // 클릭하여 해당 댓글에 대한 대댓글 영역을 펼침
+                  {expandedComments[index] && ( // 클릭하여 해당 댓글에 대한 대댓글 영역을 펼침
+                    <>
                       <>
-                        <>
-                          {recommentList ? ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
-                            <RecommentListContainer recomment={true}>
-                              {recommentList?.getCommentList?.map(
-                                (item, index) => {
-                                  return (
-                                    <>
-                                      <PostWrapper
-                                        isRecomment={true}
-                                        key={`${item._id}-${index}`}
-                                        // onClick={() => movePostId(item._id)}
-                                        onClick={() =>
-                                          toggleComment(index, item._id)
-                                        }
-                                      >
-                                        <Title size="item">
-                                          {item.comment}
-                                        </Title>
-                                        <PostInfo>
-                                          <p>
-                                            작성 일시:{" "}
-                                            {item.createdAt
-                                              ? formattedDate(item.createdAt)
-                                              : ""}
-                                          </p>
-                                        </PostInfo>
-                                      </PostWrapper>
-                                    </>
-                                  );
-                                },
-                              )}
-                            </RecommentListContainer>
-                          ) : (
-                            <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
-                          )}
-                        </>
-                        <CommentInputWrap recomment={true}>
-                          <CommentInput
-                            ref={textareaRef}
-                            rows={1}
-                            placeholder="대댓글"
-                            value={recomment}
-                            onChange={e => setRecomment(e.target.value)}
-                          />
-                        </CommentInputWrap>
+                        {recommentList ? ( // 댓글의 id를 통해 대댓글 리스트를 조회하고 recommentList에 저장
+                          <RecommentListContainer recomment={true}>
+                            {recommentList?.getCommentList?.map(
+                              (item, index) => {
+                                return (
+                                  <>
+                                    <PostWrapper
+                                      key={`${item._id}-${index}`}
+                                      // onClick={() => movePostId(item._id)}
+                                      onClick={() =>
+                                        toggleComment(index, item._id)
+                                      }
+                                    >
+                                      <Title size="item">
+                                        ┗ {item.comment}
+                                      </Title>
+                                      <PostInfo>
+                                        <p>
+                                          작성 일시:{" "}
+                                          {item.createdAt
+                                            ? formattedDate(item.createdAt)
+                                            : ""}
+                                        </p>
 
-                        <CommentBtnWrap recomment={true}>
-                          <CommentBtn
-                            onClick={e =>
-                              createRecommentData(String(item._id), e)
-                            }
-                          >
-                            대댓글 작성하기
-                          </CommentBtn>
-                        </CommentBtnWrap>
+                                        {admin && (
+                                          <DelBtn
+                                            onClick={() =>
+                                              deleteComment(item._id)
+                                            }
+                                          >
+                                            삭제
+                                          </DelBtn>
+                                        )}
+                                      </PostInfo>
+                                    </PostWrapper>
+                                  </>
+                                );
+                              },
+                            )}
+                          </RecommentListContainer>
+                        ) : (
+                          <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
+                        )}
                       </>
-                    )}
-                  </>
-                );
-              })}
-            </PostListContainer>
-          </CommentInputWrap>
-        </Suspense>
+                      <CommentInputWrap recomment={true}>
+                        <CommentInput
+                          ref={textareaRef}
+                          rows={1}
+                          placeholder="대댓글"
+                          value={recomment}
+                          onChange={e => setRecomment(e.target.value)}
+                        />
+                      </CommentInputWrap>
+
+                      <CommentBtnWrap recomment={true}>
+                        <CommentBtn
+                          onClick={e =>
+                            createRecommentData(String(item._id), e)
+                          }
+                        >
+                          대댓글 작성하기
+                        </CommentBtn>
+                      </CommentBtnWrap>
+                    </>
+                  )}
+                </>
+              );
+            })}
+          </PostListContainer>
+        </CommentInputWrap>
       ) : (
         <NoCommentMsg>등록된 댓글이 없습니다.</NoCommentMsg>
       )}

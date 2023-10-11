@@ -47,6 +47,9 @@ export const AccountText = styled("p", {
 export const MobLogin = styled("div", {
   "@mobile": {
     display: "flex !important",
+    div: {
+      display: "flex",
+    },
   },
   display: "none",
 });

@@ -1,16 +1,22 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter, useParams } from "next/navigation";
 import {
-  useGetAnimeByTitleLazyQuery,
-  GetAnimeByTitleQuery,
-} from "@/graphql/queries/getAnimeByTitle.graphql";
+  useGetAnimeByIdLazyQuery,
+  GetAnimeByIdQuery,
+} from "@/graphql/queries/getAnimeById.graphql";
 
 const useStates = () => {
-  const [getAnimeByTitle] = useGetAnimeByTitleLazyQuery();
-  const [aniInfo, setAniInfo] = useState<GetAnimeByTitleQuery>();
+  const [getAnimeById] = useGetAnimeByIdLazyQuery();
+  const [aniInfo, setAniInfo] = useState<GetAnimeByIdQuery>();
   const router = useRouter();
+  const params = useParams();
 
-  const getter = { getAnimeByTitle, aniInfo, router };
+  const getter = {
+    getAnimeById,
+    aniInfo,
+    router,
+    params,
+  };
   const setter = { setAniInfo };
 
   return { ...getter, ...setter };

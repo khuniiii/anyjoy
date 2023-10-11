@@ -4,10 +4,11 @@ import { createAnimeInfo } from "./mutations/createAnimeInfo";
 import { createPost } from "./mutations/createPost";
 import { createComment } from "./mutations/createComment";
 import { deletePost } from "./mutations/deletePost";
+import { deleteComment } from "./mutations/deleteComment";
 import { incrementView } from "./mutations/incrementView";
 
 import { getAnimeList } from "./queries/animeList";
-import { getAnimeByTitle } from "./queries/getAnimeByTitle";
+import { getAnimeById } from "./queries/getAnimeById";
 import { getCommentList } from "./queries/getCommentList";
 import { getPostByType } from "./queries/getPostByType";
 import { getOnePostById } from "./queries/getOnePostById";
@@ -19,11 +20,12 @@ const resolvers = {
     createPost,
     createComment,
     deletePost,
+    deleteComment,
     incrementView,
   },
   Query: {
     getAnimeList,
-    getAnimeByTitle,
+    getAnimeById,
     getCommentList,
     getPostByType,
     getOnePostById,

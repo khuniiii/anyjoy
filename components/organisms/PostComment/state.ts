@@ -1,16 +1,22 @@
 import { useRef, useState } from "react";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import {
   GetCommentListQuery,
   useGetCommentListLazyQuery,
 } from "@/graphql/queries/getCommentList.graphql";
-import { useCreateCommentMutation } from "@/graphql/mutations/createComment.graphql";
+import {
+  CreateCommentMutation,
+  useCreateCommentMutation,
+} from "@/graphql/mutations/createComment.graphql";
+
+import { useDeleteCommentMutation } from "@/graphql/mutations/deleteComment.graphql";
 
 import Cookies from "js-cookie";
 
 const useStates = () => {
   const [getCommentList] = useGetCommentListLazyQuery();
   const [createComment] = useCreateCommentMutation();
+  const [deleteCommentById] = useDeleteCommentMutation();
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<GetCommentListQuery>();
   const [commentId, setCommentId] = useState<string>();
@@ -24,10 +30,15 @@ const useStates = () => {
   const [recommentList, setRecommentList] = useState<GetCommentListQuery>();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCommentUpdate, setIsCommentUpdate] =
+    useState<CreateCommentMutation>();
+  const [isRecommentUpdate, setIsRecommentUpdate] =
+    useState<CreateCommentMutation>();
 
   const token = Cookies.get("token");
 
   const router = useRouter();
+  const params = useParams();
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -46,7 +57,10 @@ const useStates = () => {
 
   const getter = {
     router,
+    params,
+
     getCommentList,
+
     comment,
     commentList,
     commentId,
@@ -54,19 +68,24 @@ const useStates = () => {
     expandedComments,
 
     openRecomment,
+
     recomment,
     recommentList,
 
     currentPage,
+    totalPages,
 
     token,
     textareaRef,
 
-    totalPages,
     currentCommentList,
+
+    isCommentUpdate,
+    isRecommentUpdate,
   };
   const setter = {
     createComment,
+    deleteCommentById,
 
     setComment,
     setCommentList,
@@ -79,6 +98,9 @@ const useStates = () => {
     setRecommentList,
 
     setCurrentPage,
+
+    setIsCommentUpdate,
+    setIsRecommentUpdate,
   };
 
   return { ...getter, ...setter };

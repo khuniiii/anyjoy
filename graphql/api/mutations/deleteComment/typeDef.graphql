@@ -1,0 +1,11 @@
+type Mutation {
+  deleteComment(input: DeleteCommentInput!): DeleteComment!
+}
+
+input DeleteCommentInput {
+  _id: String
+}
+
+type DeleteComment {
+  comment: String
+}

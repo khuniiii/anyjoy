@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 
 import useStates from "@/components/organisms/PostCreate/state";
@@ -16,7 +18,7 @@ const EditorComponent = dynamic(
 
 const PostCreate = () => {
   const states = useStates();
-  const { router, setTitle, setContent, title, content, token } = states;
+  const { router, setTitle, setContent, content, token, params } = states;
   const { createPostByType } = useHandlers(states);
 
   const handleContentChange = (newContent: string) => {
@@ -45,7 +47,7 @@ const PostCreate = () => {
 
       <div style={{ padding: "10px", display: "flex" }}>
         <CreateBtn
-          onClick={e => createPostByType(String(router.query.type), e)}
+          onClick={e => createPostByType(decodeURI(params!.type.toString()), e)}
         >
           작성하기
         </CreateBtn>

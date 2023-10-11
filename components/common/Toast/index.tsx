@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, memo } from "react";
 import * as ToastUI from "@radix-ui/react-toast";
 import {
