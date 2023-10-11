@@ -50,7 +50,7 @@ const useHandlers = (states: StatesType) => {
           duration: 5000,
         });
 
-        router.push(`/list/${type}`);
+        router.push("/list");
       } catch (error) {
         console.error(error);
       }

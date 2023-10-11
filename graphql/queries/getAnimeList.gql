@@ -1,6 +1,5 @@
 query getAnimeList($input: AnimeListInput!) {
   getAnimeList(input: $input) {
-    _id
     title
     author
     company
@@ -8,6 +7,7 @@ query getAnimeList($input: AnimeListInput!) {
     genre
     year
     is_ended
+    id
     is_show
     image
   }

@@ -22,7 +22,6 @@ const useHandlers = (states: StatesType) => {
             type,
           },
         },
-        fetchPolicy: "no-cache",
       });
       setPostList(data);
     } catch (error) {

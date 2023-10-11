@@ -76,63 +76,63 @@ export default NextAuth({
     }),
   ],
 
-  // cookies: {
-  //   sessionToken: {
-  //     name: `${cookiePrefix}next-auth.session-token`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //     },
-  //   },
-  //   callbackUrl: {
-  //     name: `${cookiePrefix}next-auth.callback-url`,
-  //     options: {
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //     },
-  //   },
-  //   csrfToken: {
-  //     name: `${cookiePrefix}next-auth.csrf-token`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //     },
-  //   },
-  //   pkceCodeVerifier: {
-  //     name: `${cookiePrefix}next-auth.pkce.code_verifier`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //       maxAge: 900,
-  //     },
-  //   },
-  //   state: {
-  //     name: `${cookiePrefix}next-auth.state`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //       maxAge: 900,
-  //     },
-  //   },
-  //   nonce: {
-  //     name: `${cookiePrefix}next-auth.nonce`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //     },
-  //   },
-  // },
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+    callbackUrl: {
+      name: `${cookiePrefix}next-auth.callback-url`,
+      options: {
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+    csrfToken: {
+      name: `${cookiePrefix}next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+    pkceCodeVerifier: {
+      name: `${cookiePrefix}next-auth.pkce.code_verifier`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        maxAge: 900,
+      },
+    },
+    state: {
+      name: `${cookiePrefix}next-auth.state`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        maxAge: 900,
+      },
+    },
+    nonce: {
+      name: `${cookiePrefix}next-auth.nonce`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+      },
+    },
+  },
 
   secret: process.env.SECRET,
   session: {

@@ -16,7 +16,7 @@ const useHandlers = (states: StatesType) => {
       const response = await signIn("credentials", {
         email,
         password,
-        callbackUrl: `${process.env.NEXT_PUBLIC_URI}`,
+        callbackUrl: process.env.NEXT_PUBLIC_URI,
         redirect: false,
       });
       console.log(session);

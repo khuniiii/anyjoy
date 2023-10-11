@@ -64,7 +64,6 @@ export const PostInfo = styled("div", {
   },
 
   display: "flex",
-  alignItems: "center",
 });
 
 export const CreateBtn = styled("button", {

@@ -40,11 +40,7 @@ const useHandlers = (states: StatesType) => {
       setViewedPosts(prevViewedPosts => [...prevViewedPosts, id]);
 
       // 업데이트된 배열을 localStorage에 저장
-      if (typeof window !== "undefined")
-        localStorage.setItem(
-          "viewedPosts",
-          JSON.stringify([...viewedPosts, id]),
-        );
+      localStorage.setItem("viewedPosts", JSON.stringify([...viewedPosts, id]));
     }
   };
 

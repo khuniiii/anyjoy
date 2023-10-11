@@ -1,39 +1,31 @@
 import { useToast } from "@/components/common/hook/useToast";
 import { StatesType } from "./type";
+import {
+  GetCommentListDocument,
+  GetCommentListQuery,
+} from "@/graphql/queries/getCommentList.graphql";
 
 const useHandlers = (states: StatesType) => {
   const {
     getCommentList,
-
     createComment,
-
-    params,
-
-    comment,
-    setComment,
-
-    setCommentId,
-
+    router,
     setCommentList,
+    setComment,
+    setCommentId,
+    comment,
 
-    recomment,
     setRecomment,
-
     setRecommentList,
+    recomment,
+    recommentList,
 
-    expandedComments,
     setExpandedComments,
+    expandedComments,
 
     currentPage,
     setCurrentPage,
-
     totalPages,
-
-    setIsCommentUpdate,
-
-    setIsRecommentUpdate,
-
-    deleteCommentById,
   } = states;
   const toast = useToast();
 
@@ -45,10 +37,20 @@ const useHandlers = (states: StatesType) => {
             commentId,
           },
         },
-        fetchPolicy: "no-cache",
       });
 
-      setCommentList(data);
+      setCommentList(prevState => {
+        if (data === undefined) {
+          return prevState;
+        }
+        if (!prevState) {
+          return data;
+        }
+        return {
+          ...prevState,
+          getCommentList: data.getCommentList,
+        };
+      });
     } catch (error) {
       console.error(error);
     }
@@ -56,16 +58,30 @@ const useHandlers = (states: StatesType) => {
 
   const getRecommentListData = async (commentId: string) => {
     try {
-      const { data } = await getCommentList({
+      const { data, error } = await getCommentList({
         variables: {
           input: {
             commentId,
           },
         },
-        fetchPolicy: "no-cache",
       });
 
+      console.log(data, error, recommentList);
+
       setRecommentList(data);
+
+      // setRecommentList(prevState => {
+      //   if (data === undefined) {
+      //     return prevState;
+      //   }
+      //   if (!prevState) {
+      //     return data;
+      //   }
+      //   return {
+      //     ...prevState,
+      //     getCommentList: data.getCommentList,
+      //   };
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -77,7 +93,7 @@ const useHandlers = (states: StatesType) => {
   ) => {
     const input = {
       comment: comment || "",
-      commentId: params?._id?.toString() || "",
+      commentId: router.query._id?.toString() || "",
     };
 
     if (comment?.length === 0 || comment === undefined) {
@@ -93,6 +109,12 @@ const useHandlers = (states: StatesType) => {
           variables: {
             input: input,
           },
+          refetchQueries: [
+            {
+              query: GetCommentListDocument,
+              variables: { input: { commentId } },
+            },
+          ],
         });
 
         toast.success({
@@ -100,11 +122,8 @@ const useHandlers = (states: StatesType) => {
           content: "댓글이 등록되었습니다.",
           duration: 5000,
         });
-
         setComment("");
-        if (data !== null) {
-          setIsCommentUpdate(data);
-        }
+        router.query._id && getCommentListData(router.query._id?.toString());
       } catch (error) {
         console.error(error);
       }
@@ -133,6 +152,12 @@ const useHandlers = (states: StatesType) => {
           variables: {
             input: input,
           },
+          refetchQueries: [
+            {
+              query: GetCommentListDocument,
+              variables: { input: { commentId } },
+            },
+          ],
         });
 
         toast.success({
@@ -140,12 +165,8 @@ const useHandlers = (states: StatesType) => {
           content: "댓글이 등록되었습니다.",
           duration: 5000,
         });
-
         setRecomment("");
-
-        if (data !== null) {
-          setIsRecommentUpdate(data);
-        }
+        getRecommentListData(commentId);
       } catch (error) {
         console.error(error);
       }
@@ -153,12 +174,15 @@ const useHandlers = (states: StatesType) => {
   };
 
   const toggleComment = async (index: number, commentId: string) => {
+    console.log(index, commentId);
     setRecommentList(undefined); // 전에 클릭한 대댓글 리스트를 지우고 새로 불러오도록 init
     const updatedExpandedComments = [...expandedComments];
     updatedExpandedComments[index] = !updatedExpandedComments[index];
     setExpandedComments(updatedExpandedComments);
+    console.log(111, recommentList);
 
     setCommentId(commentId);
+    console.log(222, recommentList);
     await getRecommentListData(commentId); // 댓글의 id를 넣어서 대댓글 리스트를 조회
   };
 
@@ -181,16 +205,6 @@ const useHandlers = (states: StatesType) => {
     }
   };
 
-  const deleteComment = async (_id: string) => {
-    await deleteCommentById({
-      variables: {
-        input: {
-          _id,
-        },
-      },
-    });
-  };
-
   return {
     getCommentListData,
     getRecommentListData,
@@ -200,7 +214,6 @@ const useHandlers = (states: StatesType) => {
     goToPreviousPage,
     goToNextPage,
     goToPage,
-    deleteComment,
   };
 };
 
