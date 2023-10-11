@@ -87,13 +87,3 @@ export const SocialBtn = styled("button", {
     },
   },
 });
-
-export const ValidText = styled("p", {
-  fontSize: "14px",
-  color: "red",
-  fontWeight: "500",
-
-  "@mobile": {
-    fontSize: "12px",
-  },
-});

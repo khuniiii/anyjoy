@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useCreatePostMutation } from "@/graphql/mutations/createPost.graphql";
 
 import Cookies from "js-cookie";
@@ -12,9 +12,8 @@ const useStates = () => {
   const token = Cookies.get("token");
 
   const router = useRouter();
-  const params = useParams();
 
-  const getter = { router, title, content, token, params };
+  const getter = { router, title, content, token };
   const setter = { createPost, setTitle, setContent };
 
   return { ...getter, ...setter };

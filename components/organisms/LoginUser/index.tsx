@@ -1,5 +1,3 @@
-"use client";
-
 import { signIn, useSession } from "next-auth/react";
 import {
   Container,
@@ -13,16 +11,13 @@ import {
 import useStates from "./state";
 import useHandlers from "./handler";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 const LoginUser = () => {
   const states = useStates();
   const { setLoginEmail, setLoginPassword, router } = states;
   const { login } = useHandlers(states);
   const { data: session, status } = useSession();
-  console.log("data:", session, "status: ", status);
-  const searchParams = useSearchParams();
-  const error = searchParams?.get("error");
+  console.log("data:", session?.session, "status: ", status);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -30,24 +25,10 @@ const LoginUser = () => {
     }
   });
 
-  const signin = async (type: "naver" | "kakao") => {
-    if (!searchParams) return;
-
-    // if (error === "OAuthAccountNotLinked")
-    //   await signIn(type, { callbackUrl: "/linkAccount" });
-
-    await signIn(type);
-  };
-
   return (
     <>
       {status === "unauthenticated" && (
         <Container>
-          {error === "OAuthAccountNotLinked" && (
-            <p>
-              동일한 이메일의 계정이 존재합니다. 기존 계정으로 로그인해주세요.
-            </p>
-          )}
           <JoinGroup onSubmit={login}>
             <JoinInput
               placeholder="이메일"
@@ -61,10 +42,10 @@ const LoginUser = () => {
             <JoinBtn type="submit">로그인하기</JoinBtn>
           </JoinGroup>
           <SocialGroup>
-            <SocialBtn social="naver" onClick={() => signin("naver")}>
+            <SocialBtn social="naver" onClick={() => signIn("naver")}>
               네이버로 로그인
             </SocialBtn>
-            <SocialBtn social="kakao" onClick={() => signin("kakao")}>
+            <SocialBtn social="kakao" onClick={() => signIn("kakao")}>
               카카오로 로그인
             </SocialBtn>
           </SocialGroup>

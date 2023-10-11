@@ -1,11 +1,10 @@
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useWindowSize } from "react-use";
 import Cookies from "js-cookie";
 
 const useStates = () => {
   const { width } = useWindowSize();
-  const pathName = usePathname();
   const isMobile = width < 768;
   const router = useRouter();
 
@@ -18,7 +17,6 @@ const useStates = () => {
     router,
     openSide,
     token,
-    pathName,
   };
   const setter = { setOpenSide };
 

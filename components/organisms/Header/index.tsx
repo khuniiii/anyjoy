@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import {
@@ -27,14 +25,12 @@ import { useScrollLockBody } from "@/components/common/hook/useScrollLock";
 const Header = () => {
   const { data: session, status } = useSession();
   const states = useStates();
-  const { token, isMobile, openSide, pathName } = states;
+  const { token, isMobile, openSide } = states;
   const { logout, goLogin, goJoin, openSideMenu } = useHandlers(states);
 
   useEffect(() => {
     if (session) Cookies.set("token", session.user.token, { expires: 1 / 24 });
   }, [session]);
-
-  console.log(pathName);
 
   const getMenuIcon = () => {
     if (!isMobile) {
@@ -65,8 +61,7 @@ const Header = () => {
 
         <AccountList>
           <MobLogin>
-            <AccountText>{session?.user.name}</AccountText>
-            <div style={{ alignItems: "center" }} onClick={openSideMenu}>
+            <div onClick={openSideMenu}>
               {openSide ? <Close /> : <Hamburger />}
             </div>
           </MobLogin>
@@ -74,7 +69,6 @@ const Header = () => {
           <PcLogin>
             {status === "authenticated" ? (
               <>
-                <AccountText>{session?.user.name}</AccountText>
                 <AccountText onClick={logout}>로그아웃</AccountText>
               </>
             ) : (
@@ -93,15 +87,10 @@ const Header = () => {
       {openSide && (
         <SideContainer>
           <SideLogin>
-            {pathName !== "/join" && !token && (
-              <SideLoginBtn onClick={goJoin}>회원가입</SideLoginBtn>
-            )}
-
-            {pathName !== "/login" && (
-              <SideLoginBtn onClick={token ? logout : goLogin}>
-                {token ? "로그아웃" : "로그인"}
-              </SideLoginBtn>
-            )}
+            {!token && <SideLoginBtn onClick={goJoin}>회원가입</SideLoginBtn>}
+            <SideLoginBtn onClick={token ? logout : goLogin}>
+              {token ? "로그아웃" : "로그인"}
+            </SideLoginBtn>
           </SideLogin>
         </SideContainer>
       )}

@@ -1,5 +1,3 @@
-"use client";
-
 import { useOverlay as tossUseToast } from "@toss/use-overlay";
 import { useMemo } from "react";
 

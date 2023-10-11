@@ -1,5 +1,3 @@
-"use client";
-
 import {
   useOverlay as tossUseOverlay,
   OverlayProvider as TossOverlayProvider,

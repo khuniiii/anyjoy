@@ -1,4 +1,3 @@
-"use client";
 import { useEffect } from "react";
 
 import CommentList from "@/components/organisms/PostComment";
@@ -21,7 +20,8 @@ import { useSession } from "next-auth/react";
 const PostDetail = () => {
   const { data: session } = useSession();
   const states = useStates();
-  const { postData, router, setViewedPosts, params } = states;
+  const { postData, router, setViewedPosts } = states;
+  const { query } = router;
 
   const admin = session?.user.role === "admin";
 
@@ -29,10 +29,10 @@ const PostDetail = () => {
     useHandlers(states);
 
   useEffect(() => {
-    if (params && typeof params?._id === "string") {
-      getOnePostByIdData(params._id);
+    if (typeof query._id === "string") {
+      getOnePostByIdData(query._id);
     }
-  }, [params?._id]);
+  }, [query._id]);
 
   useEffect(() => {
     const viewed = localStorage.getItem("viewedPosts");
@@ -41,9 +41,9 @@ const PostDetail = () => {
     }
   }, []);
 
-  if (typeof params?._id === "string") handleIncrementViews(params._id);
+  if (typeof query._id === "string") handleIncrementViews(query._id);
 
-  // console.log(session?.user.role);
+  console.log(session?.user.role);
 
   return (
     <>
@@ -88,7 +88,7 @@ const PostDetail = () => {
         })}
       </PostContainer>
 
-      {params?._id && <CommentList id={params._id.toString()} />}
+      {query._id && <CommentList id={query._id.toString()} />}
     </>
   );
 };
